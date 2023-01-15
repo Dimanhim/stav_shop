@@ -21,6 +21,30 @@ class Catalogue extends \common\models\BaseModel
     }
 
     /**
+     * @return string
+     */
+    public static function modelName()
+    {
+        return 'Категории';
+    }
+
+    /**
+     * @return int
+     */
+    public static function typeId()
+    {
+        return Gallery::TYPE_CATALOGUE;
+    }
+
+    /**
+     * @return string
+     */
+    /*public static function typeName()
+    {
+        return 'catalogue';
+    }*/
+
+    /**
      * {@inheritdoc}
      */
     public function rules()
@@ -45,4 +69,13 @@ class Catalogue extends \common\models\BaseModel
             'short_description' => 'Короткое описание',
         ];
     }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getParent()
+    {
+        return $this->hasOne(self::className(), ['id' => 'parent_id']);
+    }
+
 }

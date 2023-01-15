@@ -21,6 +21,22 @@ class Image extends \common\models\BaseModel
     }
 
     /**
+     * @return string
+     */
+    public static function modelName()
+    {
+        return 'Изображения';
+    }
+
+    /**
+     * @return int
+     */
+    public static function typeId()
+    {
+        return Gallery::TYPE_IMAGE;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function rules()
@@ -44,5 +60,28 @@ class Image extends \common\models\BaseModel
             'path' => 'Путь',
             'gallery_id' => 'Галерея',
         ];
+    }
+
+    /**
+     * @return bool
+     */
+    public function beforeDelete()
+    {
+        if (file_exists(Yii::getAlias('@upload').$this->path)) {
+            unlink(Yii::getAlias('@upload').$this->path);
+        }
+        return parent::beforeDelete();
+    }
+
+    /**
+     * @param $path
+     * @return Image
+     */
+    public static function create($path, $galleryId = null) {
+        $image = new self();
+        $image->path = $path;
+        if($galleryId) $image->gallery_id = $galleryId;
+        $image->save();
+        return $image;
     }
 }

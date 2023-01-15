@@ -17,6 +17,18 @@ use himiklab\sortablegrid\SortableGridAction;
 class BaseController extends Controller
 {
     /**
+     * @param $action
+     * @return bool
+     * @throws \yii\web\BadRequestHttpException
+     */
+    public function beforeAction($action)
+    {
+        if(($model = $this->getModel()) && ($modelName = $model::modelName())) {
+            $this->view->title = $modelName;
+        }
+        return parent::beforeAction($action);
+    }
+    /**
      * @inheritDoc
      */
     public function behaviors()
@@ -39,7 +51,7 @@ class BaseController extends Controller
         return [
             'sort' => [
                 'class' => SortableGridAction::className(),
-                'modelName' => $this->behaviors()['className'],
+                //'modelName' => $this->behaviors()['className'],
             ],
         ];
     }
@@ -72,13 +84,21 @@ class BaseController extends Controller
      */
     public function findModel($id)
     {
-        $behavours = $this->behaviors();
-        if(array_key_exists('className', $this->behaviors())) {
-            if (($model = $behavours['className']::findOne(['id' => $id])) !== null) {
-                return $model;
+        if(array_key_exists('className', $this->behaviors()) && ($model = $this->getModel())) {
+            if(($findModel = $model::findOne(['id' => $id])) !== null) {
+                return $findModel;
             }
         }
         throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
+    public function getModel()
+    {
+        $behaviors = $this->behaviors();
+        if(array_key_exists('className', $this->behaviors())) {
+            return $behaviors['className'];
+        }
+        return false;
     }
 
 

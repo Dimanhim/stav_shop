@@ -11,10 +11,19 @@ use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\web\UploadedFile;
 
+/**
+1. добавить static метод modelName
+2. удалить во вью $this->title
+3. В классе Product поменять beforeSave
+// 4. добавить static метод typeName - это для сохранения сущности картинок. По ходу не нужно
+5. в класс Gallery добавить типы изображений
+6. добавить static метод typeId
+ */
 class BaseModel extends ActiveRecord
 {
     public $image_field;
-    public $image_fields = ['image_field' => 'image_id'];
+    //public $image_fields = ['image_field' => 'image_id'];
+    public $image_fields;
     public $image_preview_field = [];
 
     /**
@@ -32,12 +41,36 @@ class BaseModel extends ActiveRecord
     }
 
     /**
+     * @return mixed
+     */
+    public function getModelName()
+    {
+        return self::className()::modelName();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTypeId()
+    {
+        return self::className()::typeId();
+    }
+
+    /**
+     * @return mixed
+     */
+    /*public function getTypeName()
+    {
+        return self::className()::typeName();
+    }*/
+
+    /**
      * @return array
      */
     public function rules()
     {
         return [
-            [['image_field', 'image_preview_field', 'unique_id', 'is_active', 'deleted', 'position', 'created_at', 'updated_at'], 'safe'],
+            [['image_field', 'image_fields', 'image_preview_field', 'unique_id', 'is_active', 'deleted', 'position', 'created_at', 'updated_at'], 'safe'],
         ];
     }
 
@@ -50,6 +83,7 @@ class BaseModel extends ActiveRecord
             'id' => 'ID',
             'unique_id' => 'Уникальный ID',
             'image_field' => 'Изображение',
+            'image_fields' => 'Изображение',
             'image_preview_field' => 'Превью изображения',
             'is_active' => 'Активность',
             'deleted' => 'Удален',
@@ -65,6 +99,7 @@ class BaseModel extends ActiveRecord
      */
     public function beforeSave($insert)
     {
+        if(!$this->unique_id) $this->unique_id = uniqid();
         $this->handleImages();
         return parent::beforeSave($insert);
     }
@@ -91,6 +126,14 @@ class BaseModel extends ActiveRecord
     public static function getList()
     {
         return ArrayHelper::map(self::findModels()->asArray()->all(), 'id', 'name');
+    }
+
+    /**
+     * @return array|ActiveRecord[]
+     */
+    public function getGallery()
+    {
+        return Gallery::find()->where(['object_type' => $this->typeId, 'object_id' => $this->id])->one();
     }
 
     /**
@@ -122,7 +165,27 @@ class BaseModel extends ActiveRecord
         $filesDir = Yii::getAlias('@upload')."/{$dirName}/";
         if (!file_exists($filesDir)) mkdir($filesDir, 0777, true);
 
-        foreach ($this->image_fields as $image_field => $image_fieldName) {
+        if($files = UploadedFile::getInstances($this, 'image_fields')) {
+            if(!$gallery = $this->gallery) {
+                $gallery = new Gallery();
+                $gallery->object_id = $this->id;
+                $gallery->object_type = $this->typeId;
+                $gallery->save();
+            }
+            foreach($files as $file) {
+                $fileName = $this->id.'_'.uniqid();
+                $filePath = "/{$dirName}/{$fileName}.{$file->extension}";
+
+                if (!$file->saveAs(Yii::getAlias('@upload').$filePath)) {
+                    continue;
+                }
+
+                $image = Image::create($filePath, $gallery->id);
+            }
+        }
+
+
+        /*foreach ($this->image_fields as $image_field => $image_fieldName) {
             if ($file = UploadedFile::getInstance($this, $image_field)) {
                 $fileName = md5(time().$image_fieldName);
                 $filePath = "/{$dirName}/{$fileName}.{$file->extension}";
@@ -139,7 +202,7 @@ class BaseModel extends ActiveRecord
                     $this->$image_fieldName = $image->id;
                 }
             }
-        }
+        }*/
     }
 
     /**

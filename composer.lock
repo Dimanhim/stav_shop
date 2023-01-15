@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c94639c048fb425e0764184e96e57afe",
+    "content-hash": "24172e1d2147ea6921c22641ab0bdf9d",
     "packages": [
         {
             "name": "2amigos/yii2-ckeditor-widget",
@@ -154,6 +154,24 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/bestiejs/punycode.js/zipball/38c8d3131a82567bfef18da09f7f4db68c84f8a3",
                 "reference": "38c8d3131a82567bfef18da09f7f4db68c84f8a3"
+            },
+            "type": "bower-asset"
+        },
+        {
+            "name": "bower-asset/select2",
+            "version": "3.5.4",
+            "source": {
+                "type": "git",
+                "url": "git@github.com:ivaynberg/select2.git",
+                "reference": "95a977f674b6938af55ec5f28b7772df93786c5c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ivaynberg/select2/zipball/95a977f674b6938af55ec5f28b7772df93786c5c",
+                "reference": "95a977f674b6938af55ec5f28b7772df93786c5c"
+            },
+            "require": {
+                "bower-asset/jquery": ">=1.7.1"
             },
             "type": "bower-asset"
         },
@@ -4442,6 +4460,72 @@
                 "source": "https://github.com/vova07/yii2-imperavi-widget"
             },
             "time": "2019-03-26T11:39:06+00:00"
+        },
+        {
+            "name": "vova07/yii2-select2-widget",
+            "version": "0.1.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/vova07/yii2-select2-widget.git",
+                "reference": "8b1a0907c24caf7471bdb5f6946f04a5920a1176"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/vova07/yii2-select2-widget/zipball/8b1a0907c24caf7471bdb5f6946f04a5920a1176",
+                "reference": "8b1a0907c24caf7471bdb5f6946f04a5920a1176",
+                "shasum": ""
+            },
+            "require": {
+                "bower-asset/select2": "3.*",
+                "yiisoft/yii2": "*"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "4.*",
+                "scrutinizer/ocular": "~1.1"
+            },
+            "type": "yii2-extension",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.0.x-dev"
+                },
+                "asset-installer-paths": {
+                    "bower-asset-library": "vendor/bower"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "vova07\\select2\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Crudu Vasile",
+                    "email": "bazillio07@yandex.ru",
+                    "homepage": "https://github.com/vova07",
+                    "role": "Developer"
+                }
+            ],
+            "description": "The select2 widget for Yii framework.",
+            "homepage": "https://github.com/vova07/yii2-select2-widget",
+            "keywords": [
+                "extension",
+                "select",
+                "select 2",
+                "select2",
+                "widget",
+                "yii",
+                "yii 2",
+                "yii2"
+            ],
+            "support": {
+                "issues": "https://github.com/vova07/yii2-select2-widget/issues?state=open",
+                "source": "https://github.com/vova07/yii2-select2-widget"
+            },
+            "time": "2015-04-05T21:07:23+00:00"
         },
         {
             "name": "yiisoft/yii2",
