@@ -51,7 +51,7 @@ class BaseController extends Controller
         return [
             'sort' => [
                 'class' => SortableGridAction::className(),
-                //'modelName' => $this->behaviors()['className'],
+                'modelName' => $this->behaviors()['className'],
             ],
         ];
     }

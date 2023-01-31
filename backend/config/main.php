@@ -12,6 +12,9 @@ return [
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log'],
+    'language' => 'ru-RU',
+    'sourceLanguage' => 'ru-RU',
+    'timeZone' => 'Europe/Moscow',
     'modules' => [
         'gii' => [
             'class' => 'yii\gii\Module',

@@ -2,6 +2,7 @@
 
 namespace common\models;
 
+use backend\components\Helpers;
 use Yii;
 
 /**
@@ -21,6 +22,22 @@ class Client extends \common\models\BaseModel
     public static function tableName()
     {
         return 'stv_clients';
+    }
+
+    /**
+     * @return string
+     */
+    public static function modelName()
+    {
+        return 'Клиенты';
+    }
+
+    /**
+     * @return int
+     */
+    public static function typeId()
+    {
+        return Gallery::TYPE_CLIENT;
     }
 
     /**
@@ -47,6 +64,14 @@ class Client extends \common\models\BaseModel
             'type' => 'Тип',                    // Пока непонятно для чего
             'status_id' => 'Статус',
         ];
+    }
+
+    public function beforeSave($insert)
+    {
+        if($this->phone) {
+            $this->phone = Helpers::setPhoneFormat($this->phone);
+        }
+        return parent::beforeSave($insert);
     }
 
     /**

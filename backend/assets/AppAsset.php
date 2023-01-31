@@ -36,6 +36,7 @@ class AppAsset extends AssetBundle
     public static function getCss()
     {
         return [
+            'css/jquery-ui.min.css',
             'css/chosen.css',
             'css/jquery.fancybox.min.css',
             'css/site.css?v='.mt_rand(1000,10000),
@@ -48,8 +49,12 @@ class AppAsset extends AssetBundle
     public static function getJs()
     {
         return [
+            'js/jquery-ui.min.js',
             'js/chosen.jquery.min.js',
             'js/jquery.fancybox.min.js',
+            'js/slugify.js',
+            'js/inputmask.js',
+            'js/jquery.inputmask.js',
             'js/common.js?v='.mt_rand(1000,10000),
         ];
     }

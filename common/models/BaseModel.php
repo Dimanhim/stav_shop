@@ -18,6 +18,7 @@ use yii\web\UploadedFile;
 // 4. добавить static метод typeName - это для сохранения сущности картинок. По ходу не нужно
 5. в класс Gallery добавить типы изображений
 6. добавить static метод typeId
+ * включить ajax валидацию в форме
  */
 class BaseModel extends ActiveRecord
 {
@@ -104,12 +105,34 @@ class BaseModel extends ActiveRecord
         return parent::beforeSave($insert);
     }
 
+    public function afterSave($insert, $changedAttributes)
+    {
+        if($insert) {
+            Yii::$app->session->setFlash('success', 'Запись успешно добавлена');
+        }
+        else {
+            Yii::$app->session->setFlash('success', 'Запись успешно обновлена');
+        }
+        parent::afterSave($insert, $changedAttributes);
+    }
+
     /**
      * @return \yii\db\ActiveQuery
      */
     public function getImage()
     {
         return $this->hasOne(Image::className(), ['id' => 'image_id']);
+    }
+
+    /**
+     * @return bool
+     */
+    public function getMainImage()
+    {
+        if($this->gallery && $this->gallery->images) {
+            return $this->gallery->images[0];
+        }
+        return false;
     }
 
     /**

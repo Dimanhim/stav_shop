@@ -1,6 +1,7 @@
 <?php
 
 use common\models\Product;
+use himiklab\thumbnail\EasyThumbnailImage;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\ActionColumn;
@@ -30,14 +31,39 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'catalogue_id',
                 'format' => 'raw',
                 'value' => function($data) {
-                    if($data->catalogue) return $data->catalogue->name;
+                    if($data->catalogue) return Html::a($data->catalogue->name, ['catalogue/view', 'id' => $data->catalogue->id]) ;
+                }
+            ],
+            [
+                'attribute' => 'image_fields',
+                'format' => 'raw',
+                'value' => function($data) {
+                    if($data->mainImage) return Html::a(
+                            EasyThumbnailImage::thumbnailImg(Yii::getAlias('@upload').$data->mainImage->path, 100, 100, EasyThumbnailImage::THUMBNAIL_OUTBOUND),
+                            EasyThumbnailImage::thumbnailFileUrl(Yii::getAlias('@upload').$data->mainImage->path, 1000, 1000, EasyThumbnailImage::THUMBNAIL_OUTBOUND),
+                            ['data-fancybox' => 'gallery']
+                    ) ;
                 }
             ],
             'name',
+            [
+                'attribute' => 'client_id',
+                'format' => 'raw',
+                'value' => function($data) {
+                    if($data->client) return Html::a($data->client->name, ['client/view', 'id' => $data->client->id]) ;
+                }
+            ],
+            'qty',
             'cost_full',
             'cost_old',
             'cost_discount',
             'discount',
+            [
+                'attribute' => 'note',
+                'value' => function($data) {
+                    return $data->note ? 'Да' : 'Нет';
+                }
+            ],
             [
                 'class' => ActionColumn::className(),
                 'urlCreator' => function ($action, Product $model, $key, $index, $column) {

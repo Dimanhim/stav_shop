@@ -13,7 +13,10 @@ use vova07\select2\Widget;
 
 <div class="catalogue-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin([
+        'id' => 'default-form',
+        'enableAjaxValidation' => true,
+    ]); ?>
     <div class="row">
         <div class="col-6">
             <div class="card">

@@ -2,18 +2,16 @@
 
 namespace backend\controllers;
 
-use common\models\Catalogue;
-use backend\models\CatalogueSearch;
+use common\models\Tag;
+use backend\models\TagSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use yii\web\Response;
-use yii\widgets\ActiveForm;
 
 /**
- * CatalogueController implements the CRUD actions for Catalogue model.
+ * ProductTagController implements the CRUD actions for ProductTag model.
  */
-class CatalogueController extends BaseController
+class TagController extends BaseController
 {
     /**
      * @inheritDoc
@@ -23,7 +21,7 @@ class CatalogueController extends BaseController
         return array_merge(
             parent::behaviors(),
             [
-                'className' => Catalogue::className(),
+                'className' => Tag::className(),
                 'verbs' => [
                     'class' => VerbFilter::className(),
                     'actions' => [
@@ -35,13 +33,13 @@ class CatalogueController extends BaseController
     }
 
     /**
-     * Lists all Catalogue models.
+     * Lists all ProductTag models.
      *
      * @return string
      */
     public function actionIndex()
     {
-        $searchModel = new CatalogueSearch();
+        $searchModel = new TagSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
 
         return $this->render('index', [
@@ -51,7 +49,7 @@ class CatalogueController extends BaseController
     }
 
     /**
-     * Displays a single Catalogue model.
+     * Displays a single ProductTag model.
      * @param int $id ID
      * @return string
      * @throws NotFoundHttpException if the model cannot be found
@@ -64,26 +62,15 @@ class CatalogueController extends BaseController
     }
 
     /**
-     * Creates a new Catalogue model.
+     * Creates a new ProductTag model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return string|\yii\web\Response
      */
     public function actionCreate()
     {
-        $model = new Catalogue();
+        $model = new Tag();
 
         if ($this->request->isPost) {
-            /*if(\Yii::$app->request->isAjax) {
-                if($model->load(\Yii::$app->request->post())) {
-                    \Yii::$app->response->format = Response::FORMAT_JSON;
-                    if($model->validate()) {
-                        return ['message', 'ok'];
-                    }
-                    else {
-                        return ActiveForm::validate($model);
-                    }
-                }
-            }*/
             if ($model->load($this->request->post()) && $model->save()) {
                 return $this->redirect(['view', 'id' => $model->id]);
             }
@@ -97,7 +84,7 @@ class CatalogueController extends BaseController
     }
 
     /**
-     * Updates an existing Catalogue model.
+     * Updates an existing ProductTag model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param int $id ID
      * @return string|\yii\web\Response

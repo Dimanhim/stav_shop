@@ -35,9 +35,11 @@ AppAsset::register($this);
         ],
     ]);
     $menuItems = [
-        ['label' => 'Главная', 'url' => ['/site/index']],
         ['label' => 'Категории', 'url' => ['catalogue/index']],
         ['label' => 'Товары', 'url' => ['product/index']],
+        ['label' => 'Теги товаров', 'url' => ['tag/index']],
+        ['label' => 'Клиенты', 'url' => ['client/index']],
+        ['label' => 'Страницы', 'url' => ['page/index']],
     ];
     if (Yii::$app->user->isGuest) {
         $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
@@ -66,6 +68,7 @@ AppAsset::register($this);
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>
         <?= Alert::widget() ?>
+        <p class="info-message"></p>
         <?= $content ?>
     </div>
 </main>

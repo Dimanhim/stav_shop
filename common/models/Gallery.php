@@ -22,9 +22,13 @@ use Yii;
  */
 class Gallery extends \common\models\BaseModel
 {
-    const TYPE_CATALOGUE = 1;
-    const TYPE_PRODUCT   = 2;
-    const TYPE_IMAGE     = 3;
+    const TYPE_CATALOGUE       = 1;
+    const TYPE_PRODUCT         = 2;
+    const TYPE_IMAGE           = 3;
+    const TYPE_CLIENT          = 4;
+    const TYPE_TAG             = 5;
+    const TYPE_PAGE            = 6;
+    const TYPE_PAGE_CONTENT    = 7;
 
     /**
      * {@inheritdoc}
@@ -85,6 +89,9 @@ class Gallery extends \common\models\BaseModel
             self::TYPE_CATALOGUE => 'Категории',
             self::TYPE_PRODUCT   => 'Товары',
             self::TYPE_IMAGE     => 'Изображения',
+            self::TYPE_CLIENT    => 'Клиенты',
+            self::TYPE_TAG       => 'Теги',
+            self::TYPE_PAGE      => 'Страницы',
         ];
     }
 
@@ -93,7 +100,7 @@ class Gallery extends \common\models\BaseModel
      */
     public function getImages()
     {
-        return $this->hasMany(Image::className(), ['gallery_id' => 'id'])->orderBy(['position' => SORT_DESC]);
+        return $this->hasMany(Image::className(), ['gallery_id' => 'id'])->orderBy(['position' => SORT_ASC]);
     }
 
     public function getPreviewListHTML()

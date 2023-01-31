@@ -4,6 +4,7 @@ namespace backend\controllers;
 
 use Yii;
 use common\models\Image;
+use yii\web\Response;
 
 class ImagesController extends BaseController
 {
@@ -31,5 +32,23 @@ class ImagesController extends BaseController
     {
         $this->findModel($id)->delete();
         return $this->redirect(Yii::$app->request->referrer);
+    }
+
+    public function actionSaveSort()
+    {
+        $response = ['result' => false, 'message' => null];
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        $sort = Yii::$app->request->post();
+        if($sort && $sort['ids'] && ($ids = json_decode($sort['ids'], true))) {
+            foreach($ids as $position => $imageId) {
+                if($image = Image::findOne($imageId)) {
+                    $image->position = $position;
+                    $image->save();
+                }
+            }
+            $response['result'] = true;
+            $response['message'] = 'Сортировка изображений успешно сохранена';
+        }
+        return $response;
     }
 }
