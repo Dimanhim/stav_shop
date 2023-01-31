@@ -151,3 +151,6 @@ a.desc:after {
     transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
 }
 /* PAGINATION */
+.select2-container--krajee-bs5 .select2-selection--multiple .select2-search--inline .select2-search__field {
+    margin: 0 0.5rem;
+}

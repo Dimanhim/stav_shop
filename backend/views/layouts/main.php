@@ -9,6 +9,12 @@ use yii\bootstrap5\Breadcrumbs;
 use yii\bootstrap5\Html;
 use yii\bootstrap5\Nav;
 use yii\bootstrap5\NavBar;
+use common\models\Client;
+use common\models\Catalogue;
+use common\models\Seller;
+use common\models\Page;
+use common\models\Product;
+use common\models\Tag;
 
 AppAsset::register($this);
 ?>
@@ -35,11 +41,12 @@ AppAsset::register($this);
         ],
     ]);
     $menuItems = [
-        ['label' => 'Категории', 'url' => ['catalogue/index']],
-        ['label' => 'Товары', 'url' => ['product/index']],
-        ['label' => 'Теги товаров', 'url' => ['tag/index']],
-        ['label' => 'Клиенты', 'url' => ['client/index']],
-        ['label' => 'Страницы', 'url' => ['page/index']],
+        ['label' => Catalogue::modelName(), 'url' => ['catalogue/index']],
+        ['label' => Product::modelName(), 'url' => ['product/index']],
+        ['label' => Tag::modelName(), 'url' => ['tag/index']],
+        ['label' => Client::modelName(), 'url' => ['client/index']],
+        ['label' => Seller::modelName(), 'url' => ['seller/index']],
+        ['label' => Page::modelName(), 'url' => ['page/index']],
     ];
     if (Yii::$app->user->isGuest) {
         $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];

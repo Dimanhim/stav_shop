@@ -17,8 +17,8 @@ class CatalogueSearch extends Catalogue
     public function rules()
     {
         return [
-            [['id', 'parent_id', 'is_active', 'deleted', 'position', 'created_at', 'updated_at'], 'integer'],
-            [['unique_id', 'name', 'description', 'short_description'], 'safe'],
+            [['id', 'is_active', 'deleted', 'position', 'created_at', 'updated_at'], 'integer'],
+            [['unique_id', 'name', 'description', 'short_description', 'parent_id'], 'safe'],
         ];
     }
 
@@ -40,7 +40,7 @@ class CatalogueSearch extends Catalogue
      */
     public function search($params)
     {
-        $query = Catalogue::find();
+        $query = Catalogue::findModels();
 
         // add conditions that should always apply here
 
@@ -59,21 +59,20 @@ class CatalogueSearch extends Catalogue
             return $dataProvider;
         }
 
+
+
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
             'parent_id' => $this->parent_id,
-            'is_active' => $this->is_active,
-            'deleted' => $this->deleted,
-            'position' => $this->position,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
+            //'is_active' => $this->is_active,
+            //'deleted' => $this->deleted,
+            //'position' => $this->position,
+            //'created_at' => $this->created_at,
+            //'updated_at' => $this->updated_at,
         ]);
 
-        $query->andFilterWhere(['like', 'unique_id', $this->unique_id])
-            ->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'description', $this->description])
-            ->andFilterWhere(['like', 'short_description', $this->short_description]);
+        $query->andFilterWhere(['like', 'name', $this->name]);
 
         return $dataProvider;
     }

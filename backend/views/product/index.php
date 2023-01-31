@@ -1,11 +1,13 @@
 <?php
 
+use common\models\Catalogue;
 use common\models\Product;
 use himiklab\thumbnail\EasyThumbnailImage;
+use kartik\widgets\Select2;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\ActionColumn;
-use yii\grid\GridView;
+use himiklab\sortablegrid\SortableGridView;
 
 /** @var yii\web\View $this */
 /** @var backend\models\ProductSearch $searchModel */
@@ -21,30 +23,40 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a('Добавить', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
-    <?= GridView::widget([
+    <?= SortableGridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
-            [
-                'attribute' => 'catalogue_id',
-                'format' => 'raw',
-                'value' => function($data) {
-                    if($data->catalogue) return Html::a($data->catalogue->name, ['catalogue/view', 'id' => $data->catalogue->id]) ;
-                }
-            ],
             [
                 'attribute' => 'image_fields',
                 'format' => 'raw',
                 'value' => function($data) {
                     if($data->mainImage) return Html::a(
-                            EasyThumbnailImage::thumbnailImg(Yii::getAlias('@upload').$data->mainImage->path, 100, 100, EasyThumbnailImage::THUMBNAIL_OUTBOUND),
-                            EasyThumbnailImage::thumbnailFileUrl(Yii::getAlias('@upload').$data->mainImage->path, 1000, 1000, EasyThumbnailImage::THUMBNAIL_OUTBOUND),
-                            ['data-fancybox' => 'gallery']
+                        EasyThumbnailImage::thumbnailImg(Yii::getAlias('@upload').$data->mainImage->path, 100, 100, EasyThumbnailImage::THUMBNAIL_OUTBOUND),
+                        EasyThumbnailImage::thumbnailFileUrl(Yii::getAlias('@upload').$data->mainImage->path, 1000, 1000, EasyThumbnailImage::THUMBNAIL_OUTBOUND),
+                        ['data-fancybox' => 'gallery']
                     ) ;
                 }
             ],
+            [
+                'attribute' => 'catalogue_id',
+                'format' => 'raw',
+                'value' => function($data) {
+                    if($data->catalogue) return Html::a($data->catalogue->name, ['catalogue/view', 'id' => $data->catalogue->id]) ;
+                },
+                'filter' => Select2::widget([
+                    'model' => $searchModel,
+                    'attribute' => 'catalogue_id',
+                    'options' => ['placeholder' => '[не выбран]', 'multiple' => true],
+                    'showToggleAll' => false,
+                    'pluginOptions' => [
+                        'allowClear' => true,
+                    ],
+                    'data' => Catalogue::getList(),
+                ]),
+            ],
+
             'name',
             [
                 'attribute' => 'client_id',

@@ -23,6 +23,7 @@ use yii\widgets\ActiveForm;
                     <?= $form->field($model, 'phone')->textInput(['maxlength' => true, 'class' => 'form-control phone-mask']) ?>
                     <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
                     <?= $form->field($model, 'address')->textarea() ?>
+                    <?= $form->field($model, 'is_active')->checkbox() ?>
                 </div>
             </div>
         </div>

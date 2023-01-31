@@ -1,7 +1,7 @@
 <?php
 
 use kartik\widgets\Select2;
-use yii\helpers\ArrayHelper;
+use backend\components\Helpers;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use common\models\Catalogue;
@@ -34,6 +34,7 @@ use common\models\Client;
                         <?= $form->field($model, 'qty')->textInput() ?>
                         <?= $form->field($model, 'client_id')->dropDownList(Client::getList(), ['prompt' => '[Не выбрано]', 'class' => 'form-control chosen']) ?>
                         <?= $form->field($model, 'catalogue_id')->dropDownList(Catalogue::getList(), ['prompt' => '[Не выбрано]', 'class' => 'form-control chosen']) ?>
+                        <?= $form->field($model, 'is_active')->checkbox() ?>
                     </div>
                 </div>
             </div>
@@ -43,18 +44,7 @@ use common\models\Client;
                 </div>
                 <div class="card-body">
                     <?php if (!$model->isNewRecord && $model->gallery) echo $model->gallery->getPreviewListHTML() ?>
-                    <?= $form->field($model, 'image_fields[]')->widget(FileInput::classname(), [
-                        'options' => [
-                            'accept' => 'image/*',
-                            'multiple' => true
-                        ],
-                        'pluginOptions' => [
-                            'browseLabel' => 'Выбрать',
-                            //'showPreview' => false,
-                            //'showUpload' => false,
-                            //'showRemove' => false,
-                        ]
-                    ]) ?>
+                    <?= $form->field($model, 'image_fields[]')->widget(FileInput::classname(), Helpers::getFileInputOptions()) ?>
                 </div>
             </div>
         </div>
@@ -79,7 +69,7 @@ use common\models\Client;
                         <?= $form->field($model, 'description')->textarea(['rows' => 2]) ?>
                         <?= $form->field($model, 'short_description')->textarea(['rows' => 2]) ?>
                         <?= $form->field($model, 'note')->textarea(['rows' => 2]) ?>
-                        <?= $form->field($model, 'is_active')->checkbox() ?>
+
                     </div>
                 </div>
             </div>
@@ -96,7 +86,6 @@ use common\models\Client;
                     <?= $form->field($model, 'delivery_time')->textInput(['class' => 'form-control select-time']) ?>
                 </div>
             </div>
-
         </div>
         <div class="col-12">
             <div class="form-group mt10">

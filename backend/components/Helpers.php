@@ -47,4 +47,20 @@ class Helpers
         }
         return 0;
     }
+
+    public static function getFileInputOptions()
+    {
+        return [
+            'options' => [
+                'accept' => 'image/*',
+                'multiple' => true
+            ],
+            'pluginOptions' => [
+                'browseLabel' => 'Выбрать',
+                //'showPreview' => false,
+                //'showUpload' => false,
+                //'showRemove' => false,
+            ]
+        ];
+    }
 }

@@ -1,19 +1,20 @@
 <?php
 
-use common\models\Client;
+use common\models\Seller;
 use himiklab\thumbnail\EasyThumbnailImage;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\ActionColumn;
+use yii\grid\GridView;
 use himiklab\sortablegrid\SortableGridView;
 
 /** @var yii\web\View $this */
-/** @var backend\models\ClientSearch $searchModel */
+/** @var backend\models\SellerSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="client-index">
+<div class="seller-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
@@ -26,7 +27,6 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
             [
                 'attribute' => 'image_fields',
                 'format' => 'raw',
@@ -46,7 +46,7 @@ $this->params['breadcrumbs'][] = $this->title;
             //'status_id',
             [
                 'class' => ActionColumn::className(),
-                'urlCreator' => function ($action, Client $model, $key, $index, $column) {
+                'urlCreator' => function ($action, Seller $model, $key, $index, $column) {
                     return Url::toRoute([$action, 'id' => $model->id]);
                  }
             ],

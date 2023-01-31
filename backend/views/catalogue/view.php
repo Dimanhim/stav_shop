@@ -51,14 +51,33 @@ $this->params['breadcrumbs'][] = $this->title;
                     return $data->short_description;
                 }
             ],
+
+
+            [
+                'attribute' => 'image_fields',
+                'format' => 'raw',
+                'value' => function($data) {
+                    if($data->gallery) return $data->gallery->getPreviewListHTML();
+                }
+            ],
             [
                 'attribute' => 'is_active',
                 'value' => function($data) {
                     return $data->is_active ? 'Да' : 'Нет';
                 }
             ],
-            'created_at:datetime',
-            'updated_at:datetime',
+            [
+                'attribute' => 'created_at',
+                'value' => function($data) {
+                    return date('d.m.Y H:i', $data->created_at);
+                }
+            ],
+            [
+                'attribute' => 'updated_at',
+                'value' => function($data) {
+                    return date('d.m.Y H:i', $data->updated_at);
+                }
+            ],
         ],
     ]) ?>
 

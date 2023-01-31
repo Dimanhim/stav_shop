@@ -17,8 +17,8 @@ class ProductSearch extends Product
     public function rules()
     {
         return [
-            [['id', 'catalogue_id', 'type', 'cost_full', 'cost_old', 'cost_discount', 'discount', 'is_active', 'deleted', 'position', 'created_at', 'updated_at'], 'integer'],
-            [['unique_id', 'name', 'description', 'short_description', 'attributes'], 'safe'],
+            [['id', 'type', 'cost_full', 'cost_old', 'cost_discount', 'discount', 'is_active', 'deleted', 'position', 'created_at', 'updated_at'], 'integer'],
+            [['unique_id', 'name', 'description', 'short_description', 'attributes', 'catalogue_id'], 'safe'],
         ];
     }
 
@@ -40,7 +40,7 @@ class ProductSearch extends Product
      */
     public function search($params)
     {
-        $query = Product::find();
+        $query = Product::findModels();
 
         // add conditions that should always apply here
 

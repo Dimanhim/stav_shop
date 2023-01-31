@@ -29,6 +29,7 @@ class Gallery extends \common\models\BaseModel
     const TYPE_TAG             = 5;
     const TYPE_PAGE            = 6;
     const TYPE_PAGE_CONTENT    = 7;
+    const TYPE_SELLER          = 8;
 
     /**
      * {@inheritdoc}

@@ -4,14 +4,14 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /** @var yii\web\View $this */
-/** @var common\models\Client $model */
+/** @var common\models\Seller $model */
 
 $this->title = $model->name;
 $this->params['breadcrumbs'][] = ['label' => $model->modelName, 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
-<div class="client-view">
+<div class="seller-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
@@ -20,7 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a('Удалить', ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
-                'confirm' => 'Вы уверены, что хотите удалить?',
+                'confirm' => 'Уверены, что хотите удалить?',
                 'method' => 'post',
             ],
         ]) ?>
@@ -33,8 +33,8 @@ $this->params['breadcrumbs'][] = $this->title;
             'phone',
             'email:email',
             'address',
-
-
+            //'type',
+            //'status_id',
             [
                 'attribute' => 'image_fields',
                 'format' => 'raw',

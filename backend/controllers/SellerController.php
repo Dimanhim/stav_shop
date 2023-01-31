@@ -2,18 +2,16 @@
 
 namespace backend\controllers;
 
-use common\models\Catalogue;
-use backend\models\CatalogueSearch;
+use common\models\Seller;
+use backend\models\SellerSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use yii\web\Response;
-use yii\widgets\ActiveForm;
 
 /**
- * CatalogueController implements the CRUD actions for Catalogue model.
+ * SellerController implements the CRUD actions for Seller model.
  */
-class CatalogueController extends BaseController
+class SellerController extends BaseController
 {
     /**
      * @inheritDoc
@@ -23,7 +21,7 @@ class CatalogueController extends BaseController
         return array_merge(
             parent::behaviors(),
             [
-                'className' => Catalogue::className(),
+                'className' => Seller::className(),
                 'verbs' => [
                     'class' => VerbFilter::className(),
                     'actions' => [
@@ -35,13 +33,13 @@ class CatalogueController extends BaseController
     }
 
     /**
-     * Lists all Catalogue models.
+     * Lists all Seller models.
      *
      * @return string
      */
     public function actionIndex()
     {
-        $searchModel = new CatalogueSearch();
+        $searchModel = new SellerSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
 
         return $this->render('index', [
@@ -51,7 +49,7 @@ class CatalogueController extends BaseController
     }
 
     /**
-     * Displays a single Catalogue model.
+     * Displays a single Seller model.
      * @param int $id ID
      * @return string
      * @throws NotFoundHttpException if the model cannot be found
@@ -64,17 +62,17 @@ class CatalogueController extends BaseController
     }
 
     /**
-     * Creates a new Catalogue model.
+     * Creates a new Seller model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return string|\yii\web\Response
      */
     public function actionCreate()
     {
-        $model = new Catalogue();
+        $model = new Seller();
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['index']);
+                return $this->redirect(['view', 'id' => $model->id]);
             }
         } else {
             $model->loadDefaultValues();
@@ -86,7 +84,7 @@ class CatalogueController extends BaseController
     }
 
     /**
-     * Updates an existing Catalogue model.
+     * Updates an existing Seller model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param int $id ID
      * @return string|\yii\web\Response
@@ -97,7 +95,7 @@ class CatalogueController extends BaseController
         $model = $this->findModel($id);
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['index']);
+            return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('update', [

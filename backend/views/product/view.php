@@ -55,13 +55,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'discount',
             'delivery_price',
             'delivery_time',
-            [
-                'attribute' => 'image_fields',
-                'format' => 'raw',
-                'value' => function($data) {
-                    if($data->gallery) return $data->gallery->getPreviewListHTML();
-                }
-            ],
+
             [
                 'attribute' => 'tags',
                 'format' => 'raw',
@@ -70,8 +64,33 @@ $this->params['breadcrumbs'][] = $this->title;
                 }
             ],
             'note:ntext',
-            'created_at:datetime',
-            'updated_at:datetime',
+
+
+            [
+                'attribute' => 'image_fields',
+                'format' => 'raw',
+                'value' => function($data) {
+                    if($data->gallery) return $data->gallery->getPreviewListHTML();
+                }
+            ],
+            [
+                'attribute' => 'is_active',
+                'value' => function($data) {
+                    return $data->is_active ? 'Да' : 'Нет';
+                }
+            ],
+            [
+                'attribute' => 'created_at',
+                'value' => function($data) {
+                    return date('d.m.Y H:i', $data->created_at);
+                }
+            ],
+            [
+                'attribute' => 'updated_at',
+                'value' => function($data) {
+                    return date('d.m.Y H:i', $data->updated_at);
+                }
+            ],
         ],
     ]) ?>
 
