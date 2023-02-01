@@ -51,7 +51,7 @@ class Product extends \common\models\BaseModel
     {
         return parent::rules() + [
             [['name'], 'required'],
-            [['catalogue_id', 'type', 'qty', 'client_id', 'cost_full', 'cost_old', 'cost_discount', 'discount', 'delivery_price'], 'integer'],
+            [['catalogue_id', 'type', 'qty', 'seller_id', 'cost_full', 'cost_old', 'cost_discount', 'discount', 'delivery_price'], 'integer'],
             [['description', 'short_description', 'note', 'attributes'], 'string'],
             [['name'], 'string', 'max' => 255],
             [['delivery_time', 'tags'], 'safe'],
@@ -71,7 +71,7 @@ class Product extends \common\models\BaseModel
             'short_description' => 'Короткое описание',
             'note' => 'Примечание',
             'qty' => 'Наличие, шт.',
-            'client_id' => 'Клиент',
+            'seller_id' => 'Продавец',
             'cost_full' => 'Цена',
             'cost_old' => 'Старая цена',
             'cost_discount' => 'Цена со скидкой',
@@ -130,9 +130,9 @@ class Product extends \common\models\BaseModel
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getClient()
+    public function getSeller()
     {
-        return $this->hasOne(Client::className(), ['id' => 'client_id']);
+        return $this->hasOne(Seller::className(), ['id' => 'seller_id']);
     }
 
     /**

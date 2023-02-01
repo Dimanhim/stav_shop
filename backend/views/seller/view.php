@@ -35,29 +35,31 @@ $this->params['breadcrumbs'][] = $this->title;
             'address',
             //'type',
             //'status_id',
+
+
             [
                 'attribute' => 'image_fields',
                 'format' => 'raw',
                 'value' => function($data) {
-                    if($data->gallery) return $data->gallery->getPreviewListHTML();
+                    return $data->imagesHtml;
                 }
             ],
             [
                 'attribute' => 'is_active',
                 'value' => function($data) {
-                    return $data->is_active ? 'Да' : 'Нет';
+                    return $data->active;
                 }
             ],
             [
                 'attribute' => 'created_at',
                 'value' => function($data) {
-                    return date('d.m.Y H:i', $data->created_at);
+                    return $data->createdAt;
                 }
             ],
             [
                 'attribute' => 'updated_at',
                 'value' => function($data) {
-                    return date('d.m.Y H:i', $data->updated_at);
+                    return $data->updatedAt;
                 }
             ],
         ],

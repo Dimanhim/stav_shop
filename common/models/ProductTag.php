@@ -28,6 +28,22 @@ class ProductTag extends \common\models\BaseModel
     }
 
     /**
+     * @return string
+     */
+    public static function modelName()
+    {
+        return 'Тэги товаров';
+    }
+
+    /**
+     * @return int
+     */
+    public static function typeId()
+    {
+        return Gallery::TYPE_TAG;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function rules()
@@ -46,22 +62,6 @@ class ProductTag extends \common\models\BaseModel
             'product_id' => 'Product ID',
             'tag_id' => 'Tag ID',
         ];
-    }
-
-    /**
-     * @return string
-     */
-    public static function modelName()
-    {
-        return 'Тэги товаров';
-    }
-
-    /**
-     * @return int
-     */
-    public static function typeId()
-    {
-        return Gallery::TYPE_TAG;
     }
 
     /**

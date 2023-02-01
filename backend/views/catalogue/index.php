@@ -33,11 +33,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'image_fields',
                 'format' => 'raw',
                 'value' => function($data) {
-                    if($data->mainImage) return Html::a(
-                        EasyThumbnailImage::thumbnailImg(Yii::getAlias('@upload').$data->mainImage->path, 100, 100, EasyThumbnailImage::THUMBNAIL_OUTBOUND),
-                        EasyThumbnailImage::thumbnailFileUrl(Yii::getAlias('@upload').$data->mainImage->path, 1000, 1000, EasyThumbnailImage::THUMBNAIL_OUTBOUND),
-                        ['data-fancybox' => 'gallery']
-                    ) ;
+                    return $data->mainImageHtml;
                 }
             ],
             [
@@ -57,7 +53,13 @@ $this->params['breadcrumbs'][] = $this->title;
                 ]),
             ],
             'name',
-
+            [
+                'attribute' => 'is_active',
+                'value' => function($data) {
+                    return $data->active;
+                },
+                'filter' => [0 => 'Нет', 1 => 'Да'],
+            ],
             [
                 'class' => ActionColumn::className(),
                 'urlCreator' => function ($action, Catalogue $model, $key, $index, $column) {

@@ -1,10 +1,11 @@
 <?php
 
 use common\models\Tag;
+use himiklab\thumbnail\EasyThumbnailImage;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\ActionColumn;
-use yii\grid\GridView;
+use himiklab\sortablegrid\SortableGridView;
 
 /** @var yii\web\View $this */
 /** @var backend\models\ProductTagSearch $searchModel */
@@ -20,14 +21,27 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a('Добавить', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
-    <?= GridView::widget([
+    <?= SortableGridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
+            [
+                'attribute' => 'image_fields',
+                'format' => 'raw',
+                'value' => function($data) {
+                    return $data->mainImageHtml;
+                }
+            ],
             'name',
             'short_description',
+            [
+                'attribute' => 'is_active',
+                'value' => function($data) {
+                    return $data->active;
+                },
+                'filter' => [0 => 'Нет', 1 => 'Да'],
+            ],
 
             [
                 'class' => ActionColumn::className(),

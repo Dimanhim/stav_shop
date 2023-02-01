@@ -24,7 +24,7 @@ class m220528_120932_products extends Migration
             'short_description'     => Schema::TYPE_TEXT,
             'note'                  => Schema::TYPE_TEXT,
             'qty'                   => Schema::TYPE_INTEGER,
-            'client_id'             => Schema::TYPE_INTEGER,
+            'seller_id'             => Schema::TYPE_INTEGER,
             'cost_full'             => Schema::TYPE_INTEGER,
             'cost_old'              => Schema::TYPE_INTEGER,
             'cost_discount'         => Schema::TYPE_INTEGER,

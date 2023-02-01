@@ -7,8 +7,10 @@ use himiklab\thumbnail\EasyThumbnailImage;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
+use yii\grid\ActionColumn;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\web\UploadedFile;
 
 /**
@@ -140,7 +142,7 @@ class BaseModel extends ActiveRecord
      */
     public static function findModels()
     {
-        return self::className()::find()->where(['is_active' => 1])->andWhere(['is', 'deleted', null])->orderBy(['position' => 'SORT ASC']);
+        return self::className()::find()->where(['is', 'deleted', null])->orderBy(['position' => 'SORT ASC']);
     }
 
     /**
@@ -237,5 +239,31 @@ class BaseModel extends ActiveRecord
             $img = EasyThumbnailImage::thumbnailImg(Yii::getAlias('@upload').$this->image->path, 100, 100, EasyThumbnailImage::THUMBNAIL_OUTBOUND);
             return Html::a($img, '/upload/'.$this->image->path, ['target' => '_blanc']);
         }
+    }
+
+    public function getMainImageHtml()
+    {
+        if($this->mainImage) return Html::a(
+            EasyThumbnailImage::thumbnailImg(Yii::getAlias('@upload').$this->mainImage->path, 100, 100, EasyThumbnailImage::THUMBNAIL_OUTBOUND),
+            EasyThumbnailImage::thumbnailFileUrl(Yii::getAlias('@upload').$this->mainImage->path, 1000, 1000, EasyThumbnailImage::THUMBNAIL_OUTBOUND),
+            ['data-fancybox' => 'gallery']
+        );
+    }
+    public function getImagesHtml()
+    {
+        if($this->gallery) return $this->gallery->getPreviewListHTML();
+    }
+
+    public function getActive()
+    {
+        return $this->is_active ? 'Да' : 'Нет';
+    }
+    public function getCreatedAt()
+    {
+        return date('d.m.Y H:i', $this->created_at);
+    }
+    public function getUpdatedAt()
+    {
+        return date('d.m.Y H:i', $this->updated_at);
     }
 }

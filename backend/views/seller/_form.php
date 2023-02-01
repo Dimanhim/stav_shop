@@ -1,5 +1,6 @@
 <?php
 
+use backend\components\Helpers;
 use kartik\widgets\FileInput;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
@@ -38,18 +39,7 @@ use yii\widgets\ActiveForm;
                 </div>
                 <div class="card-body">
                     <?php if (!$model->isNewRecord && $model->gallery) echo $model->gallery->getPreviewListHTML() ?>
-                    <?= $form->field($model, 'image_fields[]')->widget(FileInput::classname(), [
-                        'options' => [
-                            'accept' => 'image/*',
-                            'multiple' => true
-                        ],
-                        'pluginOptions' => [
-                            'browseLabel' => 'Выбрать',
-                            //'showPreview' => false,
-                            //'showUpload' => false,
-                            //'showRemove' => false,
-                        ]
-                    ]) ?>
+                    <?= $form->field($model, 'image_fields[]')->widget(FileInput::classname(), Helpers::getFileInputOptions()) ?>
                 </div>
             </div>
         </div>

@@ -8,7 +8,7 @@ use common\models\Catalogue;
 use common\models\Product;
 use common\models\Tag;
 use kartik\widgets\FileInput;
-use common\models\Client;
+use common\models\Seller;
 
 /** @var yii\web\View $this */
 /** @var common\models\Product $model */
@@ -32,7 +32,7 @@ use common\models\Client;
                     <div class="card-text">
                         <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
                         <?= $form->field($model, 'qty')->textInput() ?>
-                        <?= $form->field($model, 'client_id')->dropDownList(Client::getList(), ['prompt' => '[Не выбрано]', 'class' => 'form-control chosen']) ?>
+                        <?= $form->field($model, 'seller_id')->dropDownList(Seller::getList(), ['prompt' => '[Не выбрано]', 'class' => 'form-control chosen']) ?>
                         <?= $form->field($model, 'catalogue_id')->dropDownList(Catalogue::getList(), ['prompt' => '[Не выбрано]', 'class' => 'form-control chosen']) ?>
                         <?= $form->field($model, 'is_active')->checkbox() ?>
                     </div>

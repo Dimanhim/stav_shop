@@ -1,5 +1,7 @@
 <?php
 
+use backend\components\Helpers;
+use kartik\widgets\FileInput;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
@@ -9,7 +11,6 @@ use yii\widgets\ActiveForm;
 ?>
 
 <div class="product-tag-form">
-
     <?php $form = ActiveForm::begin(); ?>
     <div class="row">
         <div class="col-6">
@@ -27,14 +28,22 @@ use yii\widgets\ActiveForm;
                 </div>
             </div>
         </div>
-    </div>
-
-    <div class="col-12">
-        <div class="form-group mt10">
-            <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    Изображения
+                </div>
+                <div class="card-body">
+                    <?php if (!$model->isNewRecord && $model->gallery) echo $model->gallery->getPreviewListHTML() ?>
+                    <?= $form->field($model, 'image_fields[]')->widget(FileInput::classname(), Helpers::getFileInputOptions()) ?>
+                </div>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="form-group mt10">
+                <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>
+            </div>
         </div>
     </div>
-
     <?php ActiveForm::end(); ?>
-
 </div>

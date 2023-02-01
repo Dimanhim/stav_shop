@@ -32,14 +32,32 @@ $this->params['breadcrumbs'][] = $this->title;
             'name',
             'description',
             'short_description',
+
+            [
+                'attribute' => 'image_fields',
+                'format' => 'raw',
+                'value' => function($data) {
+                    return $data->imagesHtml;
+                }
+            ],
             [
                 'attribute' => 'is_active',
                 'value' => function($data) {
-                    return $data->is_active ? 'Да' : 'Нет';
+                    return $data->active;
                 }
             ],
-            'created_at:datetime',
-            'updated_at:datetime',
+            [
+                'attribute' => 'created_at',
+                'value' => function($data) {
+                    return $data->createdAt;
+                }
+            ],
+            [
+                'attribute' => 'updated_at',
+                'value' => function($data) {
+                    return $data->updatedAt;
+                }
+            ],
         ],
     ]) ?>
 

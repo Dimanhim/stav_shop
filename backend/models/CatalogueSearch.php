@@ -18,7 +18,7 @@ class CatalogueSearch extends Catalogue
     {
         return [
             [['id', 'is_active', 'deleted', 'position', 'created_at', 'updated_at'], 'integer'],
-            [['unique_id', 'name', 'description', 'short_description', 'parent_id'], 'safe'],
+            [['unique_id', 'name', 'description', 'short_description', 'parent_id', 'is_active'], 'safe'],
         ];
     }
 
@@ -65,7 +65,7 @@ class CatalogueSearch extends Catalogue
         $query->andFilterWhere([
             'id' => $this->id,
             'parent_id' => $this->parent_id,
-            //'is_active' => $this->is_active,
+            'is_active' => $this->is_active,
             //'deleted' => $this->deleted,
             //'position' => $this->position,
             //'created_at' => $this->created_at,

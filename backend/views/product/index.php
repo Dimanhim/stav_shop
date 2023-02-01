@@ -32,11 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'image_fields',
                 'format' => 'raw',
                 'value' => function($data) {
-                    if($data->mainImage) return Html::a(
-                        EasyThumbnailImage::thumbnailImg(Yii::getAlias('@upload').$data->mainImage->path, 100, 100, EasyThumbnailImage::THUMBNAIL_OUTBOUND),
-                        EasyThumbnailImage::thumbnailFileUrl(Yii::getAlias('@upload').$data->mainImage->path, 1000, 1000, EasyThumbnailImage::THUMBNAIL_OUTBOUND),
-                        ['data-fancybox' => 'gallery']
-                    ) ;
+                    return $data->mainImageHtml;
                 }
             ],
             [
@@ -59,15 +55,14 @@ $this->params['breadcrumbs'][] = $this->title;
 
             'name',
             [
-                'attribute' => 'client_id',
+                'attribute' => 'seller_id',
                 'format' => 'raw',
                 'value' => function($data) {
-                    if($data->client) return Html::a($data->client->name, ['client/view', 'id' => $data->client->id]) ;
+                    if($data->seller) return Html::a($data->seller->name, ['seller/view', 'id' => $data->seller->id]) ;
                 }
             ],
             'qty',
             'cost_full',
-            'cost_old',
             'cost_discount',
             'discount',
             [
@@ -75,6 +70,13 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value' => function($data) {
                     return $data->note ? 'Да' : 'Нет';
                 }
+            ],
+            [
+                'attribute' => 'is_active',
+                'value' => function($data) {
+                    return $data->active;
+                },
+                'filter' => [0 => 'Нет', 1 => 'Да'],
             ],
             [
                 'class' => ActionColumn::className(),

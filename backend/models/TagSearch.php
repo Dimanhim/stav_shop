@@ -17,7 +17,7 @@ class TagSearch extends Tag
     public function rules()
     {
         return [
-            [['name', 'description', 'short_description'], 'safe'],
+            [['name', 'description', 'short_description', 'is_active'], 'safe'],
         ];
     }
 
@@ -39,7 +39,7 @@ class TagSearch extends Tag
      */
     public function search($params)
     {
-        $query = Tag::find();
+        $query = Tag::findModels();
 
         // add conditions that should always apply here
 

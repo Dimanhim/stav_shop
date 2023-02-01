@@ -42,10 +42,10 @@ $this->params['breadcrumbs'][] = $this->title;
             'description:ntext',
             'short_description:ntext',
             [
-                'attribute' => 'client_id',
+                'attribute' => 'seller_id',
                 'format' => 'raw',
                 'value' => function($data) {
-                    if($data->client) return Html::a($data->client->name, ['client/view', 'id' => $data->client->id]) ;
+                    if($data->seller) return Html::a($data->seller->name, ['seller/view', 'id' => $data->seller->id]) ;
                 }
             ],
             'qty',
@@ -70,25 +70,25 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'image_fields',
                 'format' => 'raw',
                 'value' => function($data) {
-                    if($data->gallery) return $data->gallery->getPreviewListHTML();
+                    return $data->imagesHtml;
                 }
             ],
             [
                 'attribute' => 'is_active',
                 'value' => function($data) {
-                    return $data->is_active ? 'Да' : 'Нет';
+                    return $data->active;
                 }
             ],
             [
                 'attribute' => 'created_at',
                 'value' => function($data) {
-                    return date('d.m.Y H:i', $data->created_at);
+                    return $data->createdAt;
                 }
             ],
             [
                 'attribute' => 'updated_at',
                 'value' => function($data) {
-                    return date('d.m.Y H:i', $data->updated_at);
+                    return $data->updatedAt;
                 }
             ],
         ],
