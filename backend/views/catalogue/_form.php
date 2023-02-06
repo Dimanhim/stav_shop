@@ -33,8 +33,11 @@ use vova07\select2\Widget;
                         'items' => Catalogue::getList(),
                     ])*/ ?>
                     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
+                    <?= $form->field($model, 'alias')->textInput(['maxlength' => true]) ?>
                     <?= $form->field($model, 'description')->widget(Summernote::className(), []) ?>
                     <?= $form->field($model, 'short_description')->widget(Summernote::className(), []) ?>
+                    <?= $form->field($model, 'meta_description')->textarea() ?>
+                    <?= $form->field($model, 'meta_keywords')->textarea() ?>
                     <?= $form->field($model, 'is_active')->checkbox() ?>
                 </div>
             </div>

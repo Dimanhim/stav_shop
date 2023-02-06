@@ -36,6 +36,18 @@ $(document).ready(function() {
         });
     }
 
+    if (!$('#product-alias').val()) {
+        $("#product-name").keyup(function() {
+            $('#product-alias').val(slugify($(this).val()));
+        });
+    }
+
+    if (!$('#catalogue-alias').val()) {
+        $("#catalogue-name").keyup(function() {
+            $('#catalogue-alias').val(slugify($(this).val()));
+        });
+    }
+
     $('.default-form').on('beforeSubmit', function (e) {
         console.log('beforeSubmit')
         let form = $(this);

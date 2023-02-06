@@ -55,6 +55,13 @@ $this->params['breadcrumbs'][] = $this->title;
 
             'name',
             [
+                'attribute' => 'alias',
+                'format' => 'raw',
+                'value' => function($data) {
+                    return Html::a('На сайте', $data->fullUri, ['target' => '_blanc']);
+                }
+            ],
+            [
                 'attribute' => 'seller_id',
                 'format' => 'raw',
                 'value' => function($data) {

@@ -19,8 +19,11 @@ class m220525_202102_catalogue extends Migration
 
             'parent_id'             => Schema::TYPE_INTEGER,
             'name'                  => Schema::TYPE_STRING . ' NOT NULL',
+            'alias'                 => Schema::TYPE_STRING . ' NOT NULL',
             'description'           => Schema::TYPE_TEXT,
             'short_description'     => Schema::TYPE_TEXT,
+            'meta_description'      => Schema::TYPE_STRING,
+            'meta_keywords'         => Schema::TYPE_STRING,
 
             'is_active'             => Schema::TYPE_SMALLINT . ' DEFAULT 1',
             'deleted'               => Schema::TYPE_SMALLINT,

@@ -31,9 +31,12 @@ use common\models\Seller;
                 <div class="card-body">
                     <div class="card-text">
                         <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
+                        <?= $form->field($model, 'alias')->textInput(['maxlength' => true]) ?>
                         <?= $form->field($model, 'qty')->textInput() ?>
                         <?= $form->field($model, 'seller_id')->dropDownList(Seller::getList(), ['prompt' => '[Не выбрано]', 'class' => 'form-control chosen']) ?>
                         <?= $form->field($model, 'catalogue_id')->dropDownList(Catalogue::getList(), ['prompt' => '[Не выбрано]', 'class' => 'form-control chosen']) ?>
+                        <?= $form->field($model, 'meta_description')->textarea() ?>
+                        <?= $form->field($model, 'meta_keywords')->textarea() ?>
                         <?= $form->field($model, 'is_active')->checkbox() ?>
                     </div>
                 </div>

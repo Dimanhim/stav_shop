@@ -51,6 +51,9 @@ return [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                'page/<action:(view|create|update|delete|toggle-visibility|tree)>' => 'page/<action>',
+                'page/<action:(view|create|update|delete)>/<type>' => 'page/<action>/<type>',
+                'page/<type>' => 'page/index',
             ],
         ],
     ],

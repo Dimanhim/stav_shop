@@ -1,28 +1,29 @@
 <?php
 
 use common\models\Catalogue;
-use himiklab\thumbnail\EasyThumbnailImage;
+use common\models\Page;
+use kartik\widgets\Select2;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\ActionColumn;
+use yii\grid\GridView;
 use himiklab\sortablegrid\SortableGridView;
-use kartik\widgets\Select2;
 
 /** @var yii\web\View $this */
-/** @var backend\models\CatalogueSearch $searchModel */
+/** @var backend\models\PageSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="catalogue-index">
+<div class="page-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
+    <!--
     <p>
-        <?= Html::a('Добавить', ['create'], ['class' => 'btn btn-success']) ?>
+        <?//= Html::a('Добавить', ['create', 'type' => $type], ['class' => 'btn btn-success']) ?>
     </p>
-
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+    -->
 
     <?= SortableGridView::widget([
         'dataProvider' => $dataProvider,
@@ -33,11 +34,28 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'image_fields',
                 'format' => 'raw',
                 'value' => function($data) {
-                    return $data->mainImageHtml;
+                    return $data->dataSource ? $data->dataSource->mainImageHtml : '';
+                }
+            ],
+            'name',
+            [
+                'attribute' => 'alias',
+                'format' => 'raw',
+                'value' => function($data) {
+                    return Html::a($data->alias, $data->fullUri, ['target' => '_blanc']);
                 }
             ],
             [
+                'attribute' => 'type',
+                'format' => 'raw',
+                /*'value' => function($data) {
+                    return Html::a($data->alias, $data->fullUri, ['target' => '_blanc']);
+                },*/
+                'filter' => Page::avaliableTypes()
+            ],
+            [
                 'attribute' => 'parent_id',
+                'format' => 'raw',
                 'value' => function($data) {
                     if($data->parent) return $data->parent->name;
                 },
@@ -49,27 +67,29 @@ $this->params['breadcrumbs'][] = $this->title;
                     'pluginOptions' => [
                         'allowClear' => true,
                     ],
-                    'data' => Catalogue::getList(),
+                    'data' => Page::getList(),
                 ]),
-            ],
-            'name',
-            [
-                'attribute' => 'alias',
-                'format' => 'raw',
-                'value' => function($data) {
-                    return Html::a('На сайте', $data->fullUri, ['target' => '_blanc']);
-                }
             ],
             [
                 'attribute' => 'is_active',
-                'value' => function($data) {
-                    return $data->active;
-                },
+                'format' => 'boolean',
                 'filter' => [0 => 'Нет', 1 => 'Да'],
             ],
+            //'relation_id',
+            //'h1',
+            //'title',
+            //'meta_description',
+            //'meta_keywords',
+            //'template',
+            //'custom_code:ntext',
+            //'is_active',
+            //'deleted',
+            //'position',
+            //'created_at',
+            //'updated_at',
             [
                 'class' => ActionColumn::className(),
-                'urlCreator' => function ($action, Catalogue $model, $key, $index, $column) {
+                'urlCreator' => function ($action, Page $model, $key, $index, $column) {
                     return Url::toRoute([$action, 'id' => $model->id]);
                  }
             ],

@@ -39,6 +39,13 @@ $this->params['breadcrumbs'][] = $this->title;
                 }
             ],
             'name',
+            [
+                'attribute' => 'alias',
+                'format' => 'raw',
+                'value' => function($data) {
+                    return Html::a($data->alias, $data->fullUri, ['target' => '_blanc']);
+                }
+            ],
             'description:ntext',
             'short_description:ntext',
             [

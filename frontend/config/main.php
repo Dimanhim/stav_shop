@@ -41,6 +41,8 @@ return [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                ['class' => 'frontend\components\CustomUrlRule'],
+                '<action:(.*)>' => 'site/<action>',
             ],
         ],
     ],

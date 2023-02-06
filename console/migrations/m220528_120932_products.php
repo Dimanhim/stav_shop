@@ -20,6 +20,7 @@ class m220528_120932_products extends Migration
             'catalogue_id'          => Schema::TYPE_INTEGER,
             'type'                  => Schema::TYPE_SMALLINT,
             'name'                  => Schema::TYPE_STRING . ' NOT NULL',
+            'alias'                 => Schema::TYPE_STRING . ' NOT NULL',
             'description'           => Schema::TYPE_TEXT,
             'short_description'     => Schema::TYPE_TEXT,
             'note'                  => Schema::TYPE_TEXT,
@@ -32,6 +33,8 @@ class m220528_120932_products extends Migration
             'delivery_price'        => Schema::TYPE_INTEGER,
             'delivery_time'         => Schema::TYPE_INTEGER,
             'attributes'            => Schema::TYPE_TEXT,
+            'meta_description'      => Schema::TYPE_STRING,
+            'meta_keywords'         => Schema::TYPE_STRING,
 
             'is_active'             => Schema::TYPE_SMALLINT . ' DEFAULT 1',
             'deleted'               => Schema::TYPE_SMALLINT,

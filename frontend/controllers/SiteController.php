@@ -2,6 +2,9 @@
 
 namespace frontend\controllers;
 
+use common\models\Page;
+use common\models\Catalogue;
+use common\models\Product;
 use frontend\models\ResendVerificationEmailForm;
 use frontend\models\VerifyEmailForm;
 use Yii;
@@ -76,6 +79,37 @@ class SiteController extends Controller
     public function actionIndex()
     {
         return $this->render('index');
+    }
+
+    /**
+     * @param Page $page
+     * @return string
+     */
+    public function actionPage(Page $page) {
+        return $this->render('page', [
+            'page' => $page,
+            'data' => $page->dataSource,
+        ]);
+    }
+
+    /**
+     * @param Page $page
+     * @return string
+     */
+    public function actionProduct(Product $product) {
+        return $this->render('product', [
+            'product' => $product,
+        ]);
+    }
+
+    /**
+     * @param Page $page
+     * @return string
+     */
+    public function actionCatalogue(Catalogue $catalogue) {
+        return $this->render('catalogue', [
+            'catalogue' => $catalogue,
+        ]);
     }
 
     /**

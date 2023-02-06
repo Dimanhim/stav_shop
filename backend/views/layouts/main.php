@@ -40,13 +40,17 @@ AppAsset::register($this);
             'class' => 'navbar navbar-expand-md navbar-dark bg-dark fixed-top',
         ],
     ]);
+    $pages = [];
+    foreach (Page::$availableTypes as $pageTypeKey => $pageType) {
+        $pages[] = ['label' => $pageType['title'], 'url' => ['/page/'.$pageTypeKey]];
+    }
     $menuItems = [
         ['label' => Catalogue::modelName(), 'url' => ['catalogue/index']],
         ['label' => Product::modelName(), 'url' => ['product/index']],
         ['label' => Tag::modelName(), 'url' => ['tag/index']],
         ['label' => Client::modelName(), 'url' => ['client/index']],
         ['label' => Seller::modelName(), 'url' => ['seller/index']],
-        ['label' => Page::modelName(), 'url' => ['page/index']],
+        ['label' => Page::modelName(), 'items' => $pages],
     ];
     if (Yii::$app->user->isGuest) {
         $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];

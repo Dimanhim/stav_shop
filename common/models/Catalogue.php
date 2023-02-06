@@ -53,7 +53,7 @@ class Catalogue extends \common\models\BaseModel
             [['name'], 'required'],
             [['parent_id'], 'integer'],
             [['description', 'short_description'], 'string'],
-            [['name'], 'string', 'max' => 255],
+            [['name', 'alias', 'meta_description', 'meta_keywords'], 'string', 'max' => 255],
         ];
     }
 
@@ -65,8 +65,11 @@ class Catalogue extends \common\models\BaseModel
         return parent::attributeLabels() + [
             'parent_id' => 'Родитель',
             'name' => 'Название',
+            'alias' => 'Алиас',
             'description' => 'Описание',
             'short_description' => 'Короткое описание',
+            'meta_description' => 'Meta Description',
+            'meta_keywords' => 'Meta Keywords',
         ];
     }
 
@@ -76,6 +79,29 @@ class Catalogue extends \common\models\BaseModel
     public function getParent()
     {
         return $this->hasOne(self::className(), ['id' => 'parent_id']);
+    }
+
+    /**
+     * @return string
+     */
+    public function getFullUri() {
+        $fullPath = [];
+        $page = $this;
+
+        if ($page->alias == '/') {
+            return '/';
+        }
+
+        do {
+            $fullPath[] = $page->alias;
+            if ($page->parent_id) {
+                $page = $page->parent;
+            } else {
+                $page = null;
+            }
+        } while ($page);
+
+        return '/'.implode('/', array_reverse($fullPath));
     }
 
 }

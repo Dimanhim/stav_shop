@@ -18,7 +18,7 @@ class ProductSearch extends Product
     {
         return [
             [['id', 'type', 'cost_full', 'cost_old', 'cost_discount', 'discount', 'is_active', 'deleted', 'position', 'created_at', 'updated_at'], 'integer'],
-            [['unique_id', 'name', 'description', 'short_description', 'attributes', 'catalogue_id'], 'safe'],
+            [['unique_id', 'name', 'description', 'short_description', 'attributes', 'catalogue_id', 'alias'], 'safe'],
         ];
     }
 
@@ -74,6 +74,7 @@ class ProductSearch extends Product
 
         $query->andFilterWhere(['like', 'unique_id', $this->unique_id])
             ->andFilterWhere(['like', 'name', $this->name])
+            ->andFilterWhere(['like', 'alias', $this->alias])
             ->andFilterWhere(['like', 'description', $this->description])
             ->andFilterWhere(['like', 'short_description', $this->short_description])
             ->andFilterWhere(['like', 'attributes', $this->attributes]);

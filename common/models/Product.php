@@ -4,6 +4,7 @@ namespace common\models;
 
 use backend\components\Helpers;
 use Yii;
+use yii\helpers\Inflector;
 
 /**
  * This is the model class for table "stv_products".
@@ -50,10 +51,10 @@ class Product extends \common\models\BaseModel
     public function rules()
     {
         return parent::rules() + [
-            [['name'], 'required'],
+            [['name', 'alias'], 'required'],
             [['catalogue_id', 'type', 'qty', 'seller_id', 'cost_full', 'cost_old', 'cost_discount', 'discount', 'delivery_price'], 'integer'],
             [['description', 'short_description', 'note', 'attributes'], 'string'],
-            [['name'], 'string', 'max' => 255],
+            [['name', 'alias', 'meta_description', 'meta_keywords'], 'string', 'max' => 255],
             [['delivery_time', 'tags'], 'safe'],
         ];
     }
@@ -67,6 +68,7 @@ class Product extends \common\models\BaseModel
             'catalogue_id' => 'Каталог',
             'type' => 'Тип',                // Продукт/Услуга
             'name' => 'Название',
+            'alias' => 'Алиас',
             'description' => 'Описание',
             'short_description' => 'Короткое описание',
             'note' => 'Примечание',
@@ -80,6 +82,8 @@ class Product extends \common\models\BaseModel
             'delivery_time' => 'Время доставки (ч.)',
             'attributes' => 'Атрибуты',     // Связь со справочником
             'tags' => 'Тэги',
+            'meta_description' => 'Meta Description',
+            'meta_keywords' => 'Meta Keywords',
         ];
     }
 
@@ -92,6 +96,9 @@ class Product extends \common\models\BaseModel
         if(!$this->type) {
             $this->type = self::TYPE_PRODUCT;
         }
+        /*if(!$this->alias) {
+            $this->alias = Inflector::slug($this->name);
+        }*/
         if($this->delivery_time) {
             $this->delivery_time = Helpers::getSecondsInTime($this->delivery_time);
         }
@@ -190,5 +197,35 @@ class Product extends \common\models\BaseModel
         if($productTags = $this->productTagsModels) {
             return $this->getListChunk($productTags);
         }
+    }
+
+    /**
+     * @return string
+     */
+    public function getFullUri() {
+        return $this->catalogue ? $this->catalogue->fullUri.'/'.$this->alias : '';
+        //return $this->alias;
+        $fullPath = [];
+        $page = $this;
+
+        if ($page->alias == '/') {
+            return '/';
+        }
+
+        do {
+            $fullPath[] = $page->alias;
+            if ($page->catalogue_id) {
+                $page = $page->catalogue;
+            } else {
+                $page = null;
+            }
+        } while ($page);
+
+        return '/'.implode('/', array_reverse($fullPath));
+    }
+
+    public function asdf()
+    {
+
     }
 }
