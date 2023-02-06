@@ -15,6 +15,7 @@ use common\models\Seller;
 use common\models\Page;
 use common\models\Product;
 use common\models\Tag;
+use common\models\AttributeType;
 
 AppAsset::register($this);
 ?>
@@ -51,6 +52,7 @@ AppAsset::register($this);
         ['label' => Client::modelName(), 'url' => ['client/index']],
         ['label' => Seller::modelName(), 'url' => ['seller/index']],
         ['label' => Page::modelName(), 'items' => $pages],
+        ['label' => AttributeType::modelName(), 'url' => ['attribute-type/index']],
     ];
     if (Yii::$app->user->isGuest) {
         $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];

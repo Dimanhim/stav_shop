@@ -4,13 +4,14 @@ use backend\components\Helpers;
 use kartik\widgets\FileInput;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use common\models\AttributeType;
 
 /** @var yii\web\View $this */
-/** @var common\models\Seller $model */
+/** @var common\models\AttributeType $model */
 /** @var yii\widgets\ActiveForm $form */
 ?>
 
-<div class="seller-form">
+<div class="attribute-type-form">
 
     <?php $form = ActiveForm::begin(); ?>
     <div class="row">
@@ -21,13 +22,11 @@ use yii\widgets\ActiveForm;
                 </div>
                 <div class="card-body">
                     <div class="card-text">
+                        <?= $form->field($model, 'parent_id')->dropDownList(AttributeType::getList(), ['prompt' => '[Не выбрано]']) ?>
                         <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
-                        <?= $form->field($model, 'phone')->textInput(['maxlength' => true, 'class' => 'form-control phone-mask']) ?>
-                        <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
-                        <?= $form->field($model, 'address')->textInput(['maxlength' => true]) ?>
+                        <?= $form->field($model, 'description')->textarea(['rows' => 6]) ?>
+                        <?= $form->field($model, 'short_description')->textarea(['rows' => 6]) ?>
                         <?= $form->field($model, 'is_active')->checkbox() ?>
-                        <?//= $form->field($model, 'type')->textInput() ?>
-                        <?//= $form->field($model, 'status_id')->textInput() ?>
                     </div>
                 </div>
             </div>

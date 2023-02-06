@@ -2,17 +2,16 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
-use yii\helpers\Url;
 
 /** @var yii\web\View $this */
-/** @var common\models\Product $model */
+/** @var common\models\AttributeType $model */
 
 $this->title = $model->name;
 $this->params['breadcrumbs'][] = ['label' => $model->modelName, 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
-<div class="product-view">
+<div class="attribute-type-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
@@ -32,45 +31,15 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'id',
             [
-                'attribute' => 'catalogue_id',
+                'attribute' => 'parent_id',
                 'format' => 'raw',
                 'value' => function($data) {
-                    if($data->catalogue) return Html::a($data->catalogue->name, ['catalogue/view', 'id' => $data->catalogue->id]) ;
+                    if($data->parent) return Html::a($data->parent->name, ['attribute-type/view', 'id' => $data->parent->id]);
                 }
             ],
             'name',
-            [
-                'attribute' => 'alias',
-                'format' => 'raw',
-                'value' => function($data) {
-                    return Html::a($data->alias, $data->fullUri, ['target' => '_blanc']);
-                }
-            ],
             'description:ntext',
             'short_description:ntext',
-            [
-                'attribute' => 'seller_id',
-                'format' => 'raw',
-                'value' => function($data) {
-                    if($data->seller) return Html::a($data->seller->name, ['seller/view', 'id' => $data->seller->id]) ;
-                }
-            ],
-            'qty',
-            'cost_full',
-            'cost_old',
-            'cost_discount',
-            'discount',
-            'delivery_price',
-            'delivery_time',
-            [
-                'attribute' => 'tags',
-                'format' => 'raw',
-                'value' => function($data) {
-                    return $data->getTagsChunk();
-                }
-            ],
-            'note:ntext',
-
 
             [
                 'attribute' => 'image_fields',

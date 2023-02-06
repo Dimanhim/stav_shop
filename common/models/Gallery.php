@@ -30,6 +30,7 @@ class Gallery extends \common\models\BaseModel
     const TYPE_PAGE            = 6;
     const TYPE_PAGE_CONTENT    = 7;
     const TYPE_SELLER          = 8;
+    const TYPE_ATTRIBUTE_TYPE  = 9;
 
     /**
      * {@inheritdoc}
@@ -87,12 +88,15 @@ class Gallery extends \common\models\BaseModel
     public static function getTypes()
     {
         return [
-            self::TYPE_CATALOGUE => 'Категории',
-            self::TYPE_PRODUCT   => 'Товары',
-            self::TYPE_IMAGE     => 'Изображения',
-            self::TYPE_CLIENT    => 'Клиенты',
-            self::TYPE_TAG       => 'Теги',
-            self::TYPE_PAGE      => 'Страницы',
+            self::TYPE_CATALOGUE           => 'Категории',
+            self::TYPE_PRODUCT             => 'Товары',
+            self::TYPE_IMAGE               => 'Изображения',
+            self::TYPE_CLIENT              => 'Клиенты',
+            self::TYPE_TAG                 => 'Теги',
+            self::TYPE_PAGE                => 'Страницы',
+            self::TYPE_PAGE_CONTENT        => 'Страницы контента',
+            self::TYPE_SELLER              => 'Продавцы',
+            self::TYPE_ATTRIBUTE_TYPE      => 'Типы атрибутов',
         ];
     }
 

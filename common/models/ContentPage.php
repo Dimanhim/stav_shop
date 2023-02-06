@@ -49,7 +49,7 @@ class ContentPage extends \common\models\BaseModel
     public function rules()
     {
         return parent::rules() + [
-            [['name'], 'integer'],
+            [['name'], 'string', 'max' => 255],
             [['content'], 'string'],
         ];
     }
