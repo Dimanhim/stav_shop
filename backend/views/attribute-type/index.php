@@ -5,12 +5,14 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\ActionColumn;
 use himiklab\sortablegrid\SortableGridView;
+use backend\widgets\tree\TreeWidget;
 
 /** @var yii\web\View $this */
 /** @var backend\models\AttributeTypeSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
 $this->params['breadcrumbs'][] = $this->title;
+
 ?>
 <div class="attribute-type-index">
 
@@ -19,6 +21,12 @@ $this->params['breadcrumbs'][] = $this->title;
     <p>
         <?= Html::a('Добавить', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
+
+    <?//= TreeWidget::widget(['models' => $models, 'view' => 'attribute-type']) ?>
+
+
+
+
 
     <?= SortableGridView::widget([
         'dataProvider' => $dataProvider,
@@ -47,6 +55,13 @@ $this->params['breadcrumbs'][] = $this->title;
                     return $data->childrenItemsHtml;
                 }
             ],
+            [
+                'attribute' => 'Атрибуты',
+                'format' => 'raw',
+                'value' => function($data) {
+                    return $data->attributesHtml;
+                }
+            ],
             'name',
             'short_description:ntext',
             [
@@ -65,3 +80,4 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
 </div>
+

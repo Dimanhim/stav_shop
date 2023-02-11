@@ -31,6 +31,7 @@ class Gallery extends \common\models\BaseModel
     const TYPE_PAGE_CONTENT    = 7;
     const TYPE_SELLER          = 8;
     const TYPE_ATTRIBUTE_TYPE  = 9;
+    const TYPE_ATTRIBUTE       = 10;
 
     /**
      * {@inheritdoc}
@@ -97,6 +98,7 @@ class Gallery extends \common\models\BaseModel
             self::TYPE_PAGE_CONTENT        => 'Страницы контента',
             self::TYPE_SELLER              => 'Продавцы',
             self::TYPE_ATTRIBUTE_TYPE      => 'Типы атрибутов',
+            self::TYPE_ATTRIBUTE           => 'Атрибуты',
         ];
     }
 

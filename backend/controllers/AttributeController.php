@@ -2,16 +2,16 @@
 
 namespace backend\controllers;
 
-use common\models\AttributeType;
-use backend\models\AttributeTypeSearch;
+use common\models\Attribute;
+use backend\models\AttributeSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * AttributeTypeController implements the CRUD actions for AttributeType model.
+ * AttributeController implements the CRUD actions for Attribute model.
  */
-class AttributeTypeController extends BaseController
+class AttributeController extends BaseController
 {
     /**
      * @inheritDoc
@@ -21,7 +21,7 @@ class AttributeTypeController extends BaseController
         return array_merge(
             parent::behaviors(),
             [
-                'className' => AttributeType::className(),
+                'className' => Attribute::className(),
                 'verbs' => [
                     'class' => VerbFilter::className(),
                     'actions' => [
@@ -33,26 +33,23 @@ class AttributeTypeController extends BaseController
     }
 
     /**
-     * Lists all AttributeType models.
+     * Lists all Attribute models.
      *
      * @return string
      */
     public function actionIndex()
     {
-        $searchModel = new AttributeTypeSearch();
+        $searchModel = new AttributeSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
-
-        $models = AttributeType::buildTree();
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-            'models' => $models
         ]);
     }
 
     /**
-     * Displays a single AttributeType model.
+     * Displays a single Attribute model.
      * @param int $id ID
      * @return string
      * @throws NotFoundHttpException if the model cannot be found
@@ -65,13 +62,13 @@ class AttributeTypeController extends BaseController
     }
 
     /**
-     * Creates a new AttributeType model.
+     * Creates a new Attribute model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return string|\yii\web\Response
      */
     public function actionCreate()
     {
-        $model = new AttributeType();
+        $model = new Attribute();
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {
@@ -87,7 +84,7 @@ class AttributeTypeController extends BaseController
     }
 
     /**
-     * Updates an existing AttributeType model.
+     * Updates an existing Attribute model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param int $id ID
      * @return string|\yii\web\Response

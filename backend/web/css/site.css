@@ -12,7 +12,12 @@ main > .container {
     padding-right: 15px;
     padding-left: 15px;
 }
-
+.card-img .card-header-o {
+    cursor: pointer;
+}
+.card-img .card-body-o {
+    display: none;
+}
 .not-set {
     color: #c55;
     font-style: italic;

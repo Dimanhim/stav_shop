@@ -11,6 +11,8 @@ use yii\helpers\ArrayHelper;
  */
 class AttributeType extends \common\models\BaseModel
 {
+    public $childs;
+
     /**
      * {@inheritdoc}
      */
@@ -24,7 +26,7 @@ class AttributeType extends \common\models\BaseModel
      */
     public static function modelName()
     {
-        return 'Атрибуты товаров';
+        return 'Типы атрибутов';
     }
 
     /**
@@ -70,6 +72,14 @@ class AttributeType extends \common\models\BaseModel
     }
 
     /**
+     * @return array|\yii\db\ActiveQuery
+     */
+    public function getAttributeValues()
+    {
+        return $this->hasMany(Attribute::className(), ['type_id' => 'id']);
+    }
+
+    /**
      * @return \yii\db\ActiveQuery
      */
     public function getChildren()
@@ -89,5 +99,55 @@ class AttributeType extends \common\models\BaseModel
                 'link' => 'attribute-type',
             ]);
         }
+    }
+
+    /**
+     * возвращает список ссылок на дочерние элементы
+     * @return string
+     */
+    public function getAttributesHtml()
+    {
+        if($models = $this->attributeValues) {
+            return Yii::$app->controller->renderPartial('//chunks/_list_links', [
+                'models' => $models,
+                'link' => 'attribute',
+            ]);
+        }
+    }
+
+    public static function getTree()
+    {
+        if($lists = self::getList()) {
+            foreach($lists as $list) {
+                //if()
+            }
+        }
+        $result = [
+            1 => 'Атрибут 1',
+            2 => 'Атрибут 2',
+            3 => [
+                4 => 'Атрибут 6',
+                5 => 'Атрибут 5',
+            ],
+            'что то 6' => [
+                7 => 'Атрибут 6',
+                8 => 'Атрибут 5',
+            ],
+        ];
+        return $result;
+    }
+
+    public static function buildTree()
+    {
+        $tree = [];
+        if($models = self::findModels()->indexBy('id')->all()) {
+            foreach ($models as $id=>&$node) {
+                if (!$node->parent_id)
+                    $tree[$id] = &$node;
+                else
+                    $models[$node->parent_id]->childs[$node->id] = &$node;
+            }
+        }
+        return $tree;
     }
 }

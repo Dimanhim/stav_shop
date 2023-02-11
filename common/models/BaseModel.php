@@ -253,6 +253,13 @@ class BaseModel extends ActiveRecord
     {
         if($this->gallery) return $this->gallery->getPreviewListHTML();
     }
+    public function getAvatar()
+    {
+        if($this->mainImage) {
+            return '/upload'.$this->mainImage->path;
+        }
+        return '../img/no-img.png';
+    }
 
     public function getActive()
     {
@@ -265,5 +272,21 @@ class BaseModel extends ActiveRecord
     public function getUpdatedAt()
     {
         return date('d.m.Y H:i', $this->updated_at);
+    }
+
+    public function getImagesField($form)
+    {
+        return Yii::$app->controller->renderPartial('//chunks/_images_form_field', [
+            'form' => $form,
+            'model' => $this,
+        ]);
+    }
+
+    public function getFormCard($attributes = [], $cardName = '')
+    {
+        return Yii::$app->controller->renderPartial('//chunks/_form_card', [
+            'attributes' => $attributes,
+            'cardName' => $cardName,
+        ]);
     }
 }

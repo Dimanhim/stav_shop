@@ -12,35 +12,14 @@ use yii\widgets\ActiveForm;
 /* @var $form ActiveForm */
 ?>
 
-<div class="card">
-    <div class="card-header">
-        Информация о странице
-    </div>
-    <div class="card-body">
-        <?= $form->field($model, 'name')->textInput(['maxlength' => true, 'class' => 'form-control page-name']) ?>
-        <?= $form->field($model, 'content')->widget(Summernote::className(), []) ?>
-    </div>
-</div>
-<div class="card">
-    <div class="card-header">
-        Изображения
-    </div>
-    <div class="card-body">
-        <?php if ($model->gallery) echo $model->gallery->getPreviewListHTML() ?>
-        <?= $form->field($model, 'image_fields[]')->widget(\kartik\widgets\FileInput::classname(), [
-            'options' => [
-                'accept' => 'image/*',
-                'multiple' => true
-            ],
-            'pluginOptions' => [
-                'browseLabel' => 'Выбрать',
-                'showPreview' => false,
-                'showUpload' => false,
-                'showRemove' => false,
-            ]
-        ]) ?>
-    </div>
-</div>
+<?php
+    $attributes = [
+        $form->field($model, 'name')->textInput(['maxlength' => true, 'class' => 'form-control page-name']),
+        $form->field($model, 'content')->widget(Summernote::className(), []),
+    ];
+    echo $model->getFormCard($attributes, 'Информация о странице');
+?>
+<?= $model->getImagesField($form) ?>
 
 
 

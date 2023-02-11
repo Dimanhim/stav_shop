@@ -14,30 +14,18 @@ use yii\widgets\ActiveForm;
     <?php $form = ActiveForm::begin(); ?>
     <div class="row">
         <div class="col-6">
-            <div class="card">
-                <div class="card-header">
-                    Основная информация
-                </div>
-                <div class="card-body">
-                    <div class="card-text">
-                        <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
-                        <?= $form->field($model, 'short_description')->textarea() ?>
-                        <?= $form->field($model, 'description')->textarea() ?>
-                        <?= $form->field($model, 'is_active')->checkbox() ?>
-                    </div>
-                </div>
-            </div>
+            <?php
+                $attributes = [
+                    $form->field($model, 'name')->textInput(['maxlength' => true]),
+                    $form->field($model, 'short_description')->textarea(),
+                    $form->field($model, 'description')->textarea(),
+                    $form->field($model, 'is_active')->checkbox()
+                ];
+                echo $model->getFormCard($attributes, 'Основная информация');
+            ?>
         </div>
         <div class="col-md-6">
-            <div class="card">
-                <div class="card-header">
-                    Изображения
-                </div>
-                <div class="card-body">
-                    <?php if (!$model->isNewRecord && $model->gallery) echo $model->gallery->getPreviewListHTML() ?>
-                    <?= $form->field($model, 'image_fields[]')->widget(FileInput::classname(), Helpers::getFileInputOptions()) ?>
-                </div>
-            </div>
+            <?= $model->getImagesField($form) ?>
         </div>
         <div class="col-12">
             <div class="form-group mt10">

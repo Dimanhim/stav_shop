@@ -28,44 +28,37 @@ use yii\widgets\ActiveForm;
             ]) ?>
         </div>
         <div class="col-md-5">
-            <div class="card">
-                <div class="card-header">
-                    Основная информация
-                </div>
-                <div class="card-body">
-                    <?= $form->field($page, 'alias')->textInput(['maxlength' => true]) ?>
-                    <?= $form->field($page, 'parent_id')->widget(Select2::classname(), [
+            <?php
+                $attributes = [
+                    $form->field($page, 'alias')->textInput(['maxlength' => true]),
+                    $form->field($page, 'parent_id')->widget(Select2::classname(), [
                         'data' => ArrayHelper::map(Page::getList(), 'id', 'name'),
                         'options' => ['placeholder' => 'Не указан'],
                         'pluginOptions' => [
                             'allowClear' => true
                         ],
-                    ]) ?>
-                    <?= $form->field($page, 'name')->textInput(['maxlength' => true, 'class' => 'form-control page-name']) ?>
-                    <?= $form->field($page, 'type')->dropDownList(Page::avaliableTypes(), ['prompt' => '[Не выбрано]']) ?>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-header">
-                    SEO
-                </div>
-                <div class="card-body">
-                    <?= $form->field($page, 'h1')->textInput(['maxlength' => true]) ?>
-                    <?= $form->field($page, 'title')->textInput(['maxlength' => true]) ?>
-                    <?= $form->field($page, 'meta_description')->textInput(['maxlength' => true]) ?>
-                    <?= $form->field($page, 'meta_keywords')->textInput(['maxlength' => true]) ?>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-header">
-                    Дополнительная информация
-                </div>
-                <div class="card-body">
-                    <?= $form->field($page, 'template')->dropDownList(Page::customTemplates(), ['prompt' => '[Не выбрано]']) ?>
-                    <?= $form->field($page, 'custom_code')->textarea(['rows' => 10]) ?>
-
-                </div>
-            </div>
+                    ]),
+                    $form->field($page, 'name')->textInput(['maxlength' => true, 'class' => 'form-control page-name']),
+                    $form->field($page, 'type')->dropDownList(Page::avaliableTypes(), ['prompt' => '[Не выбрано]'])
+                ];
+                echo $model->getFormCard($attributes, 'Основная информация');
+            ?>
+            <?php
+                $attributes = [
+                    $form->field($page, 'h1')->textInput(['maxlength' => true]),
+                    $form->field($page, 'title')->textInput(['maxlength' => true]),
+                    $form->field($page, 'meta_description')->textInput(['maxlength' => true]),
+                    $form->field($page, 'meta_keywords')->textInput(['maxlength' => true])
+                ];
+                echo $model->getFormCard($attributes, 'SEO');
+            ?>
+            <?php
+                $attributes = [
+                    $form->field($page, 'template')->dropDownList(Page::customTemplates(), ['prompt' => '[Не выбрано]']),
+                    $form->field($page, 'custom_code')->textarea(['rows' => 10]),
+                ];
+                echo $model->getFormCard($attributes, 'Дополнительная информация');
+            ?>
         </div>
     </div>
     <div class="form-group">
