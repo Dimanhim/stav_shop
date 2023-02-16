@@ -42,4 +42,20 @@ class ProductAttributes extends \common\models\BaseModel
             'product_id' => 'Продукт',
         ];
     }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getProduct()
+    {
+        return $this->hasOne(Product::className(), ['id' => 'product_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getProductAttribute()
+    {
+        return $this->hasOne(Attribute::className(), ['id' => 'attribute_id']);
+    }
 }

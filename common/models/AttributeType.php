@@ -76,6 +76,14 @@ class AttributeType extends \common\models\BaseModel
      */
     public function getAttributeValues()
     {
+        if($relations = AttributeTypeRelation::find()->where(['attribute_type_id' => $this->id])->all()) {
+            $attributeIds = [];
+            foreach($relations as $relation) {
+                $attributeIds[] = $relation->attribute_id;
+            }
+            return Attribute::find()->where(['in', 'id', $attributeIds])->all();
+        }
+        return [];
         return $this->hasMany(Attribute::className(), ['type_id' => 'id']);
     }
 

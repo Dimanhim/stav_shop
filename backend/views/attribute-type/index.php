@@ -24,10 +24,6 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?//= TreeWidget::widget(['models' => $models, 'view' => 'attribute-type']) ?>
 
-
-
-
-
     <?= SortableGridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
@@ -40,6 +36,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     return $data->mainImageHtml;
                 }
             ],
+            'name',
             [
                 'attribute' => 'parent_id',
                 'format' => 'raw',
@@ -62,7 +59,6 @@ $this->params['breadcrumbs'][] = $this->title;
                     return $data->attributesHtml;
                 }
             ],
-            'name',
             'short_description:ntext',
             [
                 'attribute' => 'is_active',

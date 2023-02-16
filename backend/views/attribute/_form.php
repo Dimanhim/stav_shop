@@ -2,7 +2,9 @@
 
 use backend\components\Helpers;
 use common\models\AttributeType;
+use common\models\Tag;
 use kartik\widgets\FileInput;
+use kartik\widgets\Select2;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
@@ -17,7 +19,14 @@ use yii\widgets\ActiveForm;
         <div class="col-6">
             <?php
                 $attributes = [
-                    $form->field($model, 'type_id')->dropDownList(AttributeType::getTree(), ['prompt' => '[Не выбрано]']),
+                    $form->field($model, 'attribute_types')->widget(Select2::classname(), [
+                        'data' => AttributeType::getList(),
+                        'options' => ['placeholder' => '[не выбраны]', 'multiple' => true],
+                        'showToggleAll' => false,
+                        'pluginOptions' => [
+                            'allowClear' => true,
+                        ],
+                    ]),
                     $form->field($model, 'name')->textInput(['maxlength' => true]),
                     $form->field($model, 'description')->textarea(['rows' => 6]),
                     $form->field($model, 'short_description')->textarea(['rows' => 6]),

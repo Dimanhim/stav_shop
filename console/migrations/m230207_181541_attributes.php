@@ -17,7 +17,6 @@ class m230207_181541_attributes extends Migration
             'id'                    => Schema::TYPE_PK,
             'unique_id'             => Schema::TYPE_STRING . ' NOT NULL',
 
-            'type_id'               => Schema::TYPE_INTEGER,
             'name'                  => Schema::TYPE_STRING,
             'description'           => Schema::TYPE_TEXT,
             'short_description'     => Schema::TYPE_TEXT,

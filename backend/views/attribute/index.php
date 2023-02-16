@@ -35,14 +35,16 @@ $this->params['breadcrumbs'][] = $this->title;
                 }
             ],
             [
-                'attribute' => 'type_id',
+                'attribute' => 'attribute_types',
                 'format' => 'raw',
                 'value' => function($data) {
-                    if($data->type) return $data->type->name;
+                    if($data->attributeTypes) {
+                        return $data->getListLinksChunk($data->attributeTypes, 'attribute-type');
+                    }
                 },
                 'filter' => Select2::widget([
                     'model' => $searchModel,
-                    'attribute' => 'type_id',
+                    'attribute' => 'attribute_types',
                     'options' => ['placeholder' => '[не выбран]', 'multiple' => true],
                     'showToggleAll' => false,
                     'pluginOptions' => [

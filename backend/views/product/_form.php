@@ -9,6 +9,8 @@ use common\models\Product;
 use common\models\Tag;
 use kartik\widgets\FileInput;
 use common\models\Seller;
+use common\models\Attribute;
+use common\models\AttributeType;
 
 /** @var yii\web\View $this */
 /** @var common\models\Product $model */
@@ -22,7 +24,7 @@ use common\models\Seller;
             ],*/
     ]); ?>
     <div class="row">
-        <div class="col-6">
+        <div class="col-4">
             <?php
                 $attributes = [
                     $form->field($model, 'name')->textInput(['maxlength' => true]),
@@ -38,17 +40,9 @@ use common\models\Seller;
             ?>
             <?= $model->getImagesField($form) ?>
         </div>
-        <div class="col-6">
+        <div class="col-4">
             <?php
                 $attributes = [
-                    $form->field($model, 'tags')->widget(Select2::classname(), [
-                        'data' => Tag::getList(),
-                        'options' => ['placeholder' => '[не выбраны]', 'multiple' => true],
-                        'showToggleAll' => false,
-                        'pluginOptions' => [
-                            'allowClear' => true,
-                        ],
-                    ]),
                     $form->field($model, 'type')->dropDownList(Product::getTypes(), ['prompt' => '[Не выбрано]', 'class' => 'form-control chosen']),
                     $form->field($model, 'description')->textarea(['rows' => 2]),
                     $form->field($model, 'short_description')->textarea(['rows' => 2]),
@@ -56,6 +50,9 @@ use common\models\Seller;
                 ];
                 echo $model->getFormCard($attributes, 'Дополнительная информация');
             ?>
+
+        </div>
+        <div class="col-4">
             <?php
                 $attributes = [
                     $form->field($model, 'cost_full')->textInput(),
@@ -67,6 +64,39 @@ use common\models\Seller;
                 ];
                 echo $model->getFormCard($attributes, 'Цены');
             ?>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6">
+            <div class="card">
+                <div class="card-header">
+                    Типы атрибутов, теги
+                </div>
+                <div class="card-body">
+                    <?php
+                        echo $form->field($model, 'tags')->widget(Select2::classname(), [
+                            'data' => Tag::getList(),
+                            'options' => ['placeholder' => '[не выбраны]', 'multiple' => true],
+                            'showToggleAll' => false,
+                            'pluginOptions' => [
+                                'allowClear' => true,
+                            ],
+                        ]);
+                    ?>
+                    <?= $model->getAttributesTypesListHtml() ?>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="card">
+                <div class="card-header">
+                    Атрибуты
+                </div>
+                <div class="card-body">
+
+                </div>
+            </div>
         </div>
         <div class="col-12">
             <div class="form-group mt10">

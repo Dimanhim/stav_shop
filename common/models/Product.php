@@ -20,6 +20,8 @@ class Product extends \common\models\BaseModel
     const TYPE_SERVICE = 2;
 
     public $tags;
+    public $product_attributes;
+    public $product_attribute_types;
 
     /**
      * {@inheritdoc}
@@ -55,7 +57,7 @@ class Product extends \common\models\BaseModel
             [['catalogue_id', 'type', 'qty', 'seller_id', 'cost_full', 'cost_old', 'cost_discount', 'discount', 'delivery_price'], 'integer'],
             [['description', 'short_description', 'note', 'attributes'], 'string'],
             [['name', 'alias', 'meta_description', 'meta_keywords'], 'string', 'max' => 255],
-            [['delivery_time', 'tags'], 'safe'],
+            [['delivery_time', 'tags', 'product_attributes', 'product_attribute_types'], 'safe'],
         ];
     }
 
@@ -82,6 +84,8 @@ class Product extends \common\models\BaseModel
             'delivery_time' => 'Время доставки (ч.)',
             'attributes' => 'Атрибуты',     // Связь со справочником
             'tags' => 'Тэги',
+            'product_attributes' => 'Атрибуты',
+            'product_attribute_types' => 'Типы атрибутоа',
             'meta_description' => 'Meta Description',
             'meta_keywords' => 'Meta Keywords',
         ];
@@ -111,6 +115,25 @@ class Product extends \common\models\BaseModel
                 $model->save();
             }
         }
+        if($this->product_attributes) {
+            ProductAttributes::deleteAll(['product_id' => $this->id]);
+            foreach($this->product_attributes as $product_attribute) {
+                $model = new ProductAttributes();
+                $model->product_id = $this->id;
+                $model->attribute_id = $product_attribute;
+                $model->save();
+            }
+        }
+
+        if($this->product_attribute_types) {
+            ProductAttributeType::deleteAll(['product_id' => $this->id]);
+            foreach($this->product_attribute_types as $product_attribute_type) {
+                $model = new ProductAttributeType();
+                $model->product_id = $this->id;
+                $model->attribute_type_id = $product_attribute_type;
+                $model->save();
+            }
+        }
         return parent::beforeSave($insert);
     }
 
@@ -123,6 +146,8 @@ class Product extends \common\models\BaseModel
             $this->delivery_time = Helpers::getTimeAsString($this->delivery_time);
         }
         $this->setProductTags();
+        $this->setProductAttributes();
+        $this->setProductAttributeTypes();
         return parent::afterFind();
     }
 
@@ -161,6 +186,22 @@ class Product extends \common\models\BaseModel
         return $this->hasMany(ProductTag::className(), ['product_id' => 'id']);
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getProductAttributes()
+    {
+        return $this->hasMany(ProductAttributes::className(), ['product_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getProductAttributeTypes()
+    {
+        return $this->hasMany(ProductAttributeType::className(), ['product_id' => 'id']);
+    }
+
     public function getProductTagsModels()
     {
         if($productTags = $this->productTags) {
@@ -168,6 +209,34 @@ class Product extends \common\models\BaseModel
             foreach($productTags as $productTag) {
                 if($tag = $productTag->tag) {
                     $models[] = $tag;
+                }
+            }
+            return $models;
+        }
+        return false;
+    }
+
+    public function getProductAttributesModels()
+    {
+        if($productAttributes = $this->productAttributes) {
+            $models = [];
+            foreach($productAttributes as $productAttribute) {
+                if($attribute = $productAttribute->productAttribute) {
+                    $models[] = $attribute;
+                }
+            }
+            return $models;
+        }
+        return false;
+    }
+
+    public function getProductAttributeTypesModels()
+    {
+        if($productAttributeTypes = $this->productAttributeTypes) {
+            $models = [];
+            foreach($productAttributeTypes as $productAttributeType) {
+                if($attributeType = $productAttributeType->productAttributeType) {
+                    $models[] = $attributeType;
                 }
             }
             return $models;
@@ -187,6 +256,27 @@ class Product extends \common\models\BaseModel
             }
         }
         $this->tags = $result;
+    }
+
+    public function setProductAttributes()
+    {
+        $result = [];
+        if($productAttributes = $this->productAttributesModels) {
+            foreach($productAttributes as $productAttribute) {
+                $result[] = $productAttribute->id;
+            }
+        }
+        $this->product_attributes = $result;
+    }
+    public function setProductAttributeTypes()
+    {
+        $result = [];
+        if($productAttributeTypes = $this->productAttributeTypes) {
+            foreach($productAttributeTypes as $productAttributeType) {
+                $result[] = $productAttributeType->attribute_type_id;
+            }
+        }
+        $this->product_attribute_types = $result;
     }
 
     /**
@@ -224,8 +314,10 @@ class Product extends \common\models\BaseModel
         return '/'.implode('/', array_reverse($fullPath));
     }
 
-    public function asdf()
+    public function getAttributesTypesListHtml()
     {
-
+        return Yii::$app->controller->renderPartial('//chunks/_attrubutes_types_checkboxes',[
+            'model' => $this,
+        ]);
     }
 }

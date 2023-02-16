@@ -30,11 +30,13 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             [
-                'attribute' => 'type_id',
+                'attribute' => 'attribute_types',
                 'format' => 'raw',
                 'value' => function($data) {
-                    if($data->type) return $data->type->name;
-                }
+                    if($data->attributeTypes) {
+                        return $data->getListLinksChunk($data->attributeTypes, 'attribute-type');
+                    }
+                },
             ],
             'name',
             'description:ntext',

@@ -4,21 +4,21 @@ use yii\db\Migration;
 use yii\db\Schema;
 
 /**
- * Class m220528_122151_product_attribute_types
+ * Class m230211_201700_attribute_type_relations
  */
-class m220528_122151_product_attribute_types extends Migration
+class m230211_201700_attribute_type_relations extends Migration
 {
     /**
      * {@inheritdoc}
      */
     public function safeUp()
     {
-        $this->createTable('{{%product_attribute_types}}', [
+        $this->createTable('{{%attribute_type_relations}}', [
             'id'                    => Schema::TYPE_PK,
             'unique_id'             => Schema::TYPE_STRING . ' NOT NULL',
 
+            'attribute_id'          => Schema::TYPE_INTEGER . ' NOT NULL',
             'attribute_type_id'     => Schema::TYPE_INTEGER . ' NOT NULL',
-            'product_id'            => Schema::TYPE_INTEGER . ' NOT NULL',
 
             'is_active'             => Schema::TYPE_SMALLINT . ' DEFAULT 1',
             'deleted'               => Schema::TYPE_SMALLINT,
@@ -33,6 +33,6 @@ class m220528_122151_product_attribute_types extends Migration
      */
     public function safeDown()
     {
-        $this->dropTable('{{%product_attribute_types}}');
+        $this->dropTable('{{%attribute_type_relations}}');
     }
 }

@@ -25,6 +25,15 @@ main > .container {
 .form-group {
     margin-bottom: 10px;
 }
+.attribute-type-list {
+    padding-left: 0;
+}
+.attribute-type-list li {
+    list-style: none;
+}
+.attribute-type-sublist {
+    padding-left: 20px;
+}
 .mt10 {
     margin-top: 10px;
 }

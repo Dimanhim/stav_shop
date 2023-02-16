@@ -174,6 +174,19 @@ class BaseModel extends ActiveRecord
     }
 
     /**
+     * @param $models
+     * @return bool
+     */
+    public function getListLinksChunk($models, $link)
+    {
+        if(!$models) return false;
+        return Yii::$app->controller->renderPartial('//chunks/_list_links', [
+            'models' => $models,
+            'link' => $link,
+        ]);
+    }
+
+    /**
      * @return string
      */
     public function getFigmaLink()
