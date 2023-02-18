@@ -39,7 +39,7 @@ class TagSearch extends Tag
      */
     public function search($params)
     {
-        $query = Tag::findModels();
+        $query = Tag::findSearch();
 
         // add conditions that should always apply here
 

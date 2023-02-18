@@ -40,7 +40,7 @@ class ProductSearch extends Product
      */
     public function search($params)
     {
-        $query = Product::findModels();
+        $query = Product::findSearch();
 
         // add conditions that should always apply here
 

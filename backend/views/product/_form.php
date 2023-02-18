@@ -46,7 +46,15 @@ use common\models\AttributeType;
                     $form->field($model, 'type')->dropDownList(Product::getTypes(), ['prompt' => '[Не выбрано]', 'class' => 'form-control chosen']),
                     $form->field($model, 'description')->textarea(['rows' => 2]),
                     $form->field($model, 'short_description')->textarea(['rows' => 2]),
-                    $form->field($model, 'note')->textarea(['rows' => 2])
+                    $form->field($model, 'note')->textarea(['rows' => 2]),
+                    $form->field($model, 'tags')->widget(Select2::classname(), [
+                            'data' => Tag::getList(),
+                            'options' => ['placeholder' => '[не выбраны]', 'multiple' => true],
+                            'showToggleAll' => false,
+                            'pluginOptions' => [
+                                'allowClear' => true,
+                            ],
+                        ]),
                 ];
                 echo $model->getFormCard($attributes, 'Дополнительная информация');
             ?>
@@ -67,33 +75,14 @@ use common\models\AttributeType;
         </div>
     </div>
     <div class="row">
-        <div class="col-6">
+        <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    Типы атрибутов, теги
+                    Типы атрибутов, атрибуты
                 </div>
                 <div class="card-body">
-                    <?php
-                        echo $form->field($model, 'tags')->widget(Select2::classname(), [
-                            'data' => Tag::getList(),
-                            'options' => ['placeholder' => '[не выбраны]', 'multiple' => true],
-                            'showToggleAll' => false,
-                            'pluginOptions' => [
-                                'allowClear' => true,
-                            ],
-                        ]);
-                    ?>
-                    <?= $model->getAttributesTypesListHtml() ?>
 
-                </div>
-            </div>
-        </div>
-        <div class="col-6">
-            <div class="card">
-                <div class="card-header">
-                    Атрибуты
-                </div>
-                <div class="card-body">
+                    <?= $model->getAttributesTypesListHtml() ?>
 
                 </div>
             </div>

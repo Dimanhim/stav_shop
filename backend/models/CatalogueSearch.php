@@ -40,7 +40,7 @@ class CatalogueSearch extends Catalogue
      */
     public function search($params)
     {
-        $query = Catalogue::findModels();
+        $query = Catalogue::findSearch();
 
         // add conditions that should always apply here
 

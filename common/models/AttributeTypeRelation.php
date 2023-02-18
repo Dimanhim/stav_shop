@@ -69,7 +69,7 @@ class AttributeTypeRelation extends \common\models\BaseModel
      */
     public function getAttributeValue()
     {
-        return $this->hasOne(Attribute::className(), ['id' => 'attribute_id']);
+        return $this->hasOne(Attribute::className(), ['id' => 'attribute_id'])->andWhere(['is_active' => 1])->andWhere(['is', 'deleted', null]);
     }
 
     /**
@@ -77,6 +77,6 @@ class AttributeTypeRelation extends \common\models\BaseModel
      */
     public function getAttributeType()
     {
-        return $this->hasOne(AttributeType::className(), ['id' => 'attribute_type_id']);
+        return $this->hasOne(AttributeType::className(), ['id' => 'attribute_type_id'])->andWhere(['is_active' => 1])->andWhere(['is', 'deleted', null]);
     }
 }

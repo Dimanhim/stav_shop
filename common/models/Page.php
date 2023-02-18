@@ -103,7 +103,7 @@ class Page extends \common\models\BaseModel
      */
     public function getDataSource()
     {
-        return $this->hasOne(static::$availableTypes[$this->type]['class'], ['id' => 'relation_id']);
+        return $this->hasOne(static::$availableTypes[$this->type]['class'], ['id' => 'relation_id'])->andWhere(['is_active' => 1])->andWhere(['is', 'deleted', null]);
     }
 
     /**
@@ -126,7 +126,7 @@ class Page extends \common\models\BaseModel
     public function getParent()
     {
         return $this->hasOne(Page::className(), ['id' => 'parent_id'])
-            ->from(Page::tableName() . ' parent');
+            ->from(Page::tableName() . ' parent')->andWhere(['is_active' => 1])->andWhere(['is', 'deleted', null]);
     }
 
     /**
@@ -134,7 +134,7 @@ class Page extends \common\models\BaseModel
      */
     public function getChildren()
     {
-        return $this->hasMany(Page::className(), ['parent_id' => 'id'])->orderBy('position ASC');
+        return $this->hasMany(Page::className(), ['parent_id' => 'id'])->andWhere(['is_active' => 1])->andWhere(['is', 'deleted', null])->orderBy('position ASC');
     }
 
     /**

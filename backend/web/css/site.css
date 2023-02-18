@@ -34,6 +34,32 @@ main > .container {
 .attribute-type-sublist {
     padding-left: 20px;
 }
+.show-attributes-for-type {
+    margin-left: 20px;
+}
+.attribute-type-list-item.active {
+    font-weight: bold;
+}
+.attributes-block {
+    box-shadow: 1px 1px 3px #ccc, -1px -1px 3px #ccc;
+}
+.attributes-block-header,
+.attributes-block-body {
+    padding: 10px;
+}
+.attributes-block-header {
+    border-bottom: 1px solid #ccc;
+}
+
+ul.list-block li {
+    margin: 10px 0;
+}
+
+
+
+
+
+
 .mt10 {
     margin-top: 10px;
 }

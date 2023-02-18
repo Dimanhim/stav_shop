@@ -105,12 +105,12 @@ class Attribute extends \common\models\BaseModel
      */
     public function getAttributeTypes()
     {
-        if($relations = AttributeTypeRelation::find()->where(['attribute_id' => $this->id])->all()) {
+        if($relations = AttributeTypeRelation::findModels()->andWhere(['attribute_id' => $this->id])->all()) {
             $typeIds = [];
             foreach($relations as $relation) {
                 $typeIds[] = $relation->attribute_type_id;
             }
-            return AttributeType::find()->where(['in', 'id', $typeIds])->all();
+            return AttributeType::findModels()->andWhere(['in', 'id', $typeIds])->all();
         }
         return [];
     }

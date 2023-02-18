@@ -40,7 +40,7 @@ class SellerSearch extends Seller
      */
     public function search($params)
     {
-        $query = Seller::findModels();
+        $query = Seller::findSearch();
 
         // add conditions that should always apply here
 

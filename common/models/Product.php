@@ -156,7 +156,7 @@ class Product extends \common\models\BaseModel
      */
     public function getCatalogue()
     {
-        return $this->hasOne(Catalogue::className(), ['id' => 'catalogue_id']);
+        return $this->hasOne(Catalogue::className(), ['id' => 'catalogue_id'])->andWhere(['is_active' => 1])->andWhere(['is', 'deleted', null]);
     }
 
     /**
@@ -164,7 +164,7 @@ class Product extends \common\models\BaseModel
      */
     public function getSeller()
     {
-        return $this->hasOne(Seller::className(), ['id' => 'seller_id']);
+        return $this->hasOne(Seller::className(), ['id' => 'seller_id'])->andWhere(['is_active' => 1])->andWhere(['is', 'deleted', null]);
     }
 
     /**
@@ -179,29 +179,40 @@ class Product extends \common\models\BaseModel
     }
 
     /**
+     * Получает связи с тегами
+     *
      * @return \yii\db\ActiveQuery
      */
     public function getProductTags()
     {
-        return $this->hasMany(ProductTag::className(), ['product_id' => 'id']);
+        return $this->hasMany(ProductTag::className(), ['product_id' => 'id'])->andWhere(['is_active' => 1])->andWhere(['is', 'deleted', null])->orderBy(['position' => SORT_ASC]);
     }
 
     /**
+     * Получает связи с атрибутами товара
+     *
      * @return \yii\db\ActiveQuery
      */
     public function getProductAttributes()
     {
-        return $this->hasMany(ProductAttributes::className(), ['product_id' => 'id']);
+        return $this->hasMany(ProductAttributes::className(), ['product_id' => 'id'])->andWhere(['is_active' => 1])->andWhere(['is', 'deleted', null])->orderBy(['position' => SORT_ASC]);
     }
 
     /**
+     * Получает связи с типами атрибутов товара
+     *
      * @return \yii\db\ActiveQuery
      */
     public function getProductAttributeTypes()
     {
-        return $this->hasMany(ProductAttributeType::className(), ['product_id' => 'id']);
+        return $this->hasMany(ProductAttributeType::className(), ['product_id' => 'id'])->andWhere(['is_active' => 1])->andWhere(['is', 'deleted', null])->orderBy(['position' => SORT_ASC]);
     }
 
+    /**
+     * Получает модели тегов товара
+     *
+     * @return array|bool
+     */
     public function getProductTagsModels()
     {
         if($productTags = $this->productTags) {
@@ -216,6 +227,11 @@ class Product extends \common\models\BaseModel
         return false;
     }
 
+    /**
+     * Получает модели атрибутов товара
+     *
+     * @return array|bool
+     */
     public function getProductAttributesModels()
     {
         if($productAttributes = $this->productAttributes) {
@@ -230,6 +246,11 @@ class Product extends \common\models\BaseModel
         return false;
     }
 
+    /**
+     * Получает модели типов атрибутов товара
+     *
+     * @return array|bool
+     */
     public function getProductAttributeTypesModels()
     {
         if($productAttributeTypes = $this->productAttributeTypes) {
@@ -245,7 +266,7 @@ class Product extends \common\models\BaseModel
     }
 
     /**
-     *
+     * Устанавливает массив id имеющихся тегов товара
      */
     public function setProductTags()
     {
@@ -258,6 +279,9 @@ class Product extends \common\models\BaseModel
         $this->tags = $result;
     }
 
+    /**
+     * Устанавливает массив id атрибутов товара
+     */
     public function setProductAttributes()
     {
         $result = [];
@@ -268,6 +292,10 @@ class Product extends \common\models\BaseModel
         }
         $this->product_attributes = $result;
     }
+
+    /**
+     *  Устанавливает массив id типов атрибутов товара
+     */
     public function setProductAttributeTypes()
     {
         $result = [];
@@ -280,6 +308,9 @@ class Product extends \common\models\BaseModel
     }
 
     /**
+     * HTML
+     * Возвращает представление списка тегов
+     *
      * @return bool
      */
     public function getTagsChunk()
@@ -314,10 +345,62 @@ class Product extends \common\models\BaseModel
         return '/'.implode('/', array_reverse($fullPath));
     }
 
+// ---------------------------------------- BEGIN Работа с чекбоксами типов атрибутов и атрибутов
+    /**
+     * Метод рендерит всю плашку выбора типов атрибутов
+     * и атрибутов к ним
+     *
+     * @return string
+     */
     public function getAttributesTypesListHtml()
     {
-        return Yii::$app->controller->renderPartial('//chunks/_attrubutes_types_checkboxes',[
+        return Yii::$app->controller->renderPartial('//chunks/attributes/_container',[
             'model' => $this,
         ]);
     }
+
+    /**
+     * Добавляет дерево типов атрибутов
+     * @return string
+     */
+    public function getCheckboxesTree()
+    {
+        $tree = AttributeType::buildTree();
+        $str = '<ul class="attribute-type-list attribute-type-list-o list-block">';
+        $str .= $this->getCheckboxesItems($tree);
+        $str .= '<ul>';
+        return $str;
+    }
+
+    /**
+     * Рекурсивный метод рендеринга дерева чекбоксов типов атрибутов
+     * @param $tree
+     * @return string
+     */
+    public function getCheckboxesItems($tree)
+    {
+        $str = '';
+        if(!empty($tree)) {
+            $str .= '<ul class="attribute-type-sublist">';
+            $str .= Yii::$app->controller->renderPartial('//chunks/attributes/_checkboxes_types_tree', [
+                'tree' => $tree,
+                'model' => $this,
+            ]);
+            $str .= '</ul>';
+        }
+        return $str;
+    }
+
+    /**
+     * HTML
+     * Получает чекбоксы атрибутов товара,
+     * на основе выбранного типа, либо самого первого типа
+     *
+     * @return string
+     */
+    public function getCheckboxesAttributes()
+    {
+        return '';
+    }
+// ---------------------------------------- END Работа с чекбоксами типов атрибутов и атрибутов
 }

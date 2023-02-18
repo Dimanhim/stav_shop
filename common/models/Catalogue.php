@@ -78,7 +78,7 @@ class Catalogue extends \common\models\BaseModel
      */
     public function getParent()
     {
-        return $this->hasOne(self::className(), ['id' => 'parent_id']);
+        return $this->hasOne(self::className(), ['id' => 'parent_id'])->andWhere(['is_active' => 1])->andWhere(['is', 'deleted', null]);
     }
 
     /**

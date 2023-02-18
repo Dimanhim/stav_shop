@@ -69,7 +69,7 @@ class ProductTag extends \common\models\BaseModel
      */
     public function getTag()
     {
-        return $this->hasOne(Tag::className(), ['id' => 'tag_id']);
+        return $this->hasOne(Tag::className(), ['id' => 'tag_id'])->andWhere(['is_active' => 1])->andWhere(['is', 'deleted', null]);
     }
 
     /**
@@ -77,6 +77,6 @@ class ProductTag extends \common\models\BaseModel
      */
     public function getProduct()
     {
-        return $this->hasOne(Product::className(), ['id' => 'product_id']);
+        return $this->hasOne(Product::className(), ['id' => 'product_id'])->andWhere(['is_active' => 1])->andWhere(['is', 'deleted', null]);
     }
 }

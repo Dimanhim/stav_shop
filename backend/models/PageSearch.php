@@ -40,7 +40,7 @@ class PageSearch extends Page
      */
     public function search($params)
     {
-        $query = Page::findModels();
+        $query = Page::findSearch();
 
         // add conditions that should always apply here
 

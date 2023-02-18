@@ -142,7 +142,38 @@ class BaseModel extends ActiveRecord
      */
     public static function findModels()
     {
+        return self::className()::find()->where(['is', 'deleted', null])->andWhere(['is_active' => 1])->orderBy(['position' => 'SORT ASC']);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function findSearch()
+    {
         return self::className()::find()->where(['is', 'deleted', null])->orderBy(['position' => 'SORT ASC']);
+    }
+
+    /**
+     * @throws \Throwable
+     * @throws \yii\db\StaleObjectException
+     */
+    public function deleteModel()
+    {
+        file_put_contents('info-log.txt', date('d.m.Y H:i:s').' - '.print_r('delete', true)."\n", FILE_APPEND);
+        $this->is_active = null;
+        $this->deleted = 1;
+        $this->update(false);
+    }
+
+    /**
+     * @throws \Throwable
+     * @throws \yii\db\StaleObjectException
+     */
+    public function addModel()
+    {
+        $this->is_active = 1;
+        $this->deleted = null;
+        $this->update(false);
     }
 
     /**

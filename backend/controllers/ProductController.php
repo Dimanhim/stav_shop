@@ -2,11 +2,14 @@
 
 namespace backend\controllers;
 
+use Yii;
 use common\models\Product;
 use backend\models\ProductSearch;
+use common\models\ProductAttributeType;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\Response;
 
 /**
  * ProductController implements the CRUD actions for Product model.
@@ -103,6 +106,39 @@ class ProductController extends BaseController
         return $this->render('update', [
             'model' => $model,
         ]);
+    }
+
+    public function actionSelectProductType()
+    {
+        // product_id: product_id, attribute_type_id: attribute_type_id, checked: checked
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        $response = [
+            'result' => false,
+            'message' => null,
+            'html' => null,
+        ];
+
+        $product_id = Yii::$app->request->post('product_id');
+        $attribute_type_id = Yii::$app->request->post('attribute_type_id');
+        $checked = Yii::$app->request->post('checked');
+
+        if(!$productAttributeType = ProductAttributeType::findOne(['product_id' => $product_id, 'attribute_type_id' => $attribute_type_id])) {
+            $productAttributeType = new ProductAttributeType();
+            $productAttributeType->product_id = $product_id;
+            $productAttributeType->attribute_type_id = $attribute_type_id;
+            $productAttributeType->save();
+        }
+        if($checked) {
+            $productAttributeType->addModel();
+        }
+        else {
+            $productAttributeType->deleteModel();
+        }
+        $model = Product::findOne($product_id);
+        $response['result'] = true;
+        $response['message'] = 'Тип успешно изменен';
+        $response['html'] = $model->getCheckboxesTree();
+        return $response;
     }
 
 }

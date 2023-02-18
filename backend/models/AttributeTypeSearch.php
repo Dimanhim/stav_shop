@@ -40,7 +40,7 @@ class AttributeTypeSearch extends AttributeType
      */
     public function search($params)
     {
-        $query = AttributeType::findModels();
+        $query = AttributeType::findSearch();
 
         // add conditions that should always apply here
 

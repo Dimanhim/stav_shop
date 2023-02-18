@@ -79,7 +79,7 @@ class ProductAttributeType extends \common\models\BaseModel
      */
     public function getProduct()
     {
-        return $this->hasOne(Product::className(), ['id' => 'product_id']);
+        return $this->hasOne(Product::className(), ['id' => 'product_id'])->andWhere(['is_active' => 1])->andWhere(['is', 'deleted', null]);
     }
 
     /**
@@ -87,6 +87,6 @@ class ProductAttributeType extends \common\models\BaseModel
      */
     public function getProductAttributeType()
     {
-        return $this->hasOne(AttributeType::className(), ['id' => 'attribute_type_id']);
+        return $this->hasOne(AttributeType::className(), ['id' => 'attribute_type_id'])->andWhere(['is_active' => 1])->andWhere(['is', 'deleted', null]);
     }
 }

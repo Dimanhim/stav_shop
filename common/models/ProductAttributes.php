@@ -48,7 +48,7 @@ class ProductAttributes extends \common\models\BaseModel
      */
     public function getProduct()
     {
-        return $this->hasOne(Product::className(), ['id' => 'product_id']);
+        return $this->hasOne(Product::className(), ['id' => 'product_id'])->andWhere(['is_active' => 1])->andWhere(['is', 'deleted', null]);
     }
 
     /**
@@ -56,6 +56,6 @@ class ProductAttributes extends \common\models\BaseModel
      */
     public function getProductAttribute()
     {
-        return $this->hasOne(Attribute::className(), ['id' => 'attribute_id']);
+        return $this->hasOne(Attribute::className(), ['id' => 'attribute_id'])->andWhere(['is_active' => 1])->andWhere(['is', 'deleted', null]);
     }
 }

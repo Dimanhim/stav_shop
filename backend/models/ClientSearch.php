@@ -40,7 +40,7 @@ class ClientSearch extends Client
      */
     public function search($params)
     {
-        $query = Client::findModels();
+        $query = Client::findSearch();
 
         // add conditions that should always apply here
 

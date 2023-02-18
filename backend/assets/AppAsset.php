@@ -55,6 +55,7 @@ class AppAsset extends AssetBundle
             'js/slugify.js',
             'js/inputmask.js',
             'js/jquery.inputmask.js',
+            'js/functions.js?v='.mt_rand(1000,10000),
             'js/common.js?v='.mt_rand(1000,10000),
         ];
     }

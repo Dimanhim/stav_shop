@@ -68,7 +68,7 @@ class AttributeType extends \common\models\BaseModel
      */
     public function getParent()
     {
-        return $this->hasOne(self::className(), ['id' => 'parent_id']);
+        return $this->hasOne(self::className(), ['id' => 'parent_id'])->andWhere(['is_active' => 1])->andWhere(['is', 'deleted', null]);
     }
 
     /**
@@ -76,15 +76,14 @@ class AttributeType extends \common\models\BaseModel
      */
     public function getAttributeValues()
     {
-        if($relations = AttributeTypeRelation::find()->where(['attribute_type_id' => $this->id])->all()) {
+        if($relations = AttributeTypeRelation::findModels()->andWhere(['attribute_type_id' => $this->id])->all()) {
             $attributeIds = [];
             foreach($relations as $relation) {
                 $attributeIds[] = $relation->attribute_id;
             }
-            return Attribute::find()->where(['in', 'id', $attributeIds])->all();
+            return Attribute::findModels()->andWhere(['in', 'id', $attributeIds])->all();
         }
         return [];
-        return $this->hasMany(Attribute::className(), ['type_id' => 'id']);
     }
 
     /**
@@ -92,7 +91,7 @@ class AttributeType extends \common\models\BaseModel
      */
     public function getChildren()
     {
-        return $this->hasMany(self::className(), ['parent_id' => 'id']);
+        return $this->hasMany(self::className(), ['parent_id' => 'id'])->andWhere(['is_active' => 1])->andWhere(['is', 'deleted', null])->orderBy(['position' => SORT_ASC]);
     }
 
     /**

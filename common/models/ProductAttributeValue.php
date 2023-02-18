@@ -55,6 +55,6 @@ class ProductAttributeValue extends \common\models\BaseModel
      */
     public function getAttributeType()
     {
-        return $this->hasOne(ProductAttributeType::className(), ['id' => 'type_id']);
+        return $this->hasOne(ProductAttributeType::className(), ['id' => 'type_id'])->andWhere(['is_active' => 1])->andWhere(['is', 'deleted', null]);
     }
 }

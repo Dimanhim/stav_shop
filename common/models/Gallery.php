@@ -107,7 +107,7 @@ class Gallery extends \common\models\BaseModel
      */
     public function getImages()
     {
-        return $this->hasMany(Image::className(), ['gallery_id' => 'id'])->orderBy(['position' => SORT_ASC]);
+        return $this->hasMany(Image::className(), ['gallery_id' => 'id'])->andWhere(['is_active' => 1])->andWhere(['is', 'deleted', null])->orderBy(['position' => SORT_ASC]);
     }
 
     public function getPreviewListHTML()

@@ -1,5 +1,8 @@
 $(document).ready(function() {
 
+    /**
+     * сортирует изображения
+     * */
     $('.image-preview-container-o').sortable({
         stop(ev, ui) {
             let sort = [];
@@ -21,7 +24,7 @@ $(document).ready(function() {
             });
         }
     });
-
+// ---------- BEGIN slug
     if (!$('#page-alias').val()) {
         $(".page-name").keyup(function() {
             $('#page-alias').val(slugify($(this).val()));
@@ -47,7 +50,65 @@ $(document).ready(function() {
             $('#catalogue-alias').val(slugify($(this).val()));
         });
     }
+// ---------- END slug
 
+
+
+    /**
+     * сворачивает/разворачивает карточку
+     * */
+    $('body').on('click', '.card-header-o', function(e) {
+        e.preventDefault();
+        let parent = $(this).closest('.card-img-o');
+        let body = parent.find('.card-body-o');
+        let icon = $(this).find('.bi')
+        if(body.is(':visible')) {
+            body.slideUp();
+            icon.removeClass('bi-chevron-up').addClass('bi-chevron-down')
+        }
+        else {
+            body.slideDown();
+            icon.removeClass('bi-chevron-down').addClass('bi-chevron-up')
+        }
+    });
+
+    /**
+     * в форме товара показывает форму атрибутов по их типу
+     * */
+    $('body').on('click', '.show-attributes-for-type-o', function(e) {
+        e.preventDefault();
+        let self = $(this);
+        console.log('id', self.attr('data-type-id'))
+    });
+
+    /**
+     * сохраняет выбранные типы атрибутов
+     * */
+    $('body').on('change', '.checkbox-select-type-o', function(e) {
+        e.preventDefault();
+        let self = $(this);
+        let checked = self.is(':checked') ? 1 : 0;
+        let product_id = self.attr('data-product-id');
+        let attribute_type_id = self.val();
+        $.ajax({
+            url: '/admin/product/select-product-type',
+            type: 'POST',
+            data: {product_id: product_id, attribute_type_id: attribute_type_id, checked: checked},
+            success: function (res) {
+                if(res.result) {
+                    $('.attribute-type-list-o').replaceWith(res.html);
+                    displaySuccessMessage(res.message);
+                }
+            },
+            error: function () {
+                alert('Error!');
+            }
+        });
+    });
+
+
+
+// не нужен
     $('.default-form').on('beforeSubmit', function (e) {
         console.log('beforeSubmit')
         let form = $(this);
@@ -67,38 +128,5 @@ $(document).ready(function() {
         return false;
     });
 
-    $('body').on('click', '.card-header-o', function(e) {
-        e.preventDefault();
-        let parent = $(this).closest('.card-img-o');
-        let body = parent.find('.card-body-o');
-        let icon = $(this).find('.bi')
-        if(body.is(':visible')) {
-            body.slideUp();
-            icon.removeClass('bi-chevron-up').addClass('bi-chevron-down')
-        }
-        else {
-            body.slideDown();
-            icon.removeClass('bi-chevron-down').addClass('bi-chevron-up')
-        }
-    });
-
-    function displaySuccessMessage(message) {
-        $('.info-message').text(message);
-        setTimeout(function() {
-            $('.info-message').text('');
-        }, 3000)
-    }
-    function displayErrorMessage(message) {
-        $('.info-message').addClass('error').text(message);
-        setTimeout(function() {
-            $('.info-message').text('');
-        }, 3000)
-    }
-
-    function initPlugins() {
-        $('.chosen').chosen()
-        $(".select-time").inputmask({"mask": "99:99"});
-        $(".phone-mask").inputmask({"mask": "+7 (999) 999-99-99"});
-    }
     initPlugins()
 })
